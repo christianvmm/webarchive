@@ -2,7 +2,7 @@
 import { cn } from '@/utils'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 function Icon() {
    return (
@@ -53,11 +53,11 @@ const baseWidth = 110
 const widthFactor = 9
 
 export function Island({ text }: { text?: string }) {
-   const prevLength = useRef<number>(0)
+   const prevLength = Number(localStorage.getItem('prevLength') || 0)
    const currLength = text?.length || 0
 
    useEffect(() => {
-      prevLength.current = text?.length ?? 0
+      localStorage.setItem('prevLength', (text?.length ?? 0).toString())
    }, [text])
 
    return (
@@ -67,9 +67,9 @@ export function Island({ text }: { text?: string }) {
                key={text}
                initial={{
                   width:
-                     prevLength.current === 0
+                     prevLength === 0
                         ? 0
-                        : baseWidth + prevLength.current * widthFactor,
+                        : baseWidth + prevLength * widthFactor,
                }}
                animate={{
                   width: baseWidth + currLength * widthFactor,

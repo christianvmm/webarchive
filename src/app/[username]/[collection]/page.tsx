@@ -2,6 +2,7 @@ import { VISIBILITY } from '@/consts'
 import { createServerClient } from '@/lib/supabase'
 import { Website } from '@/types'
 import WebsitesList from '@/app/[username]/components/WebsitesList'
+import { Island } from '@/app/[username]/components/Island'
 
 export default async function CollectionWebsitesPage({
    params: { collection: slug },
@@ -43,7 +44,7 @@ export default async function CollectionWebsitesPage({
          <div className='flex flex-col items-center'>
             <WebsitesList websites={websites as Website[]} />
 
-            {/* <Island text={collection.data?.name} /> */}
+            <Island text={collection.data?.name} />
          </div>
       </div>
    )

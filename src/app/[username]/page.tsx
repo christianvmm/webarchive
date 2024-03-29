@@ -1,5 +1,5 @@
 import { createServerClient } from '@/lib/supabase'
-import WebsitesList, { Create } from './components/WebsitesList'
+import WebsitesList from './components/WebsitesList'
 import { Website } from '@/types'
 
 export type WebsitesPageParams = {
@@ -50,8 +50,6 @@ export default async function AllWebsitesPage({
       <div className='w-full h-full'>
          <div className='flex flex-col items-center'>
             <WebsitesList websites={websites} />
-
-            {/* <Island text={selectedCollection?.name} /> */}
          </div>
       </div>
    )
