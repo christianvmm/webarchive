@@ -1,39 +1,45 @@
-import Navbar from '@/app/components/Navbar'
-import Sites from '@/app/components/Sites'
-import { collections } from '@/data'
-import { Website } from '@/types'
-import { getSiteMetadata } from '@/utils'
-import { Suspense } from 'react'
+import LoginPage from '@/app/login/page'
+import Link from 'next/link'
+// import LoginPage from '@/app/login/page'
+// import { createServerClient } from '@/lib/supabase'
 
 export default async function Home() {
-   const urls = [
-      'https://www.christianvm.dev',
-      'https://folderart.christianvm.dev',
-      'https://www.spacedrive.com/',
-      'https://github.com/',
-      'https://animations.dev/',
-      'https://vercel.com/',
-      'https://roadmap.sh/frontend',
-      'https://react-svgr.com/',
-      'https://timestwelve.xyz/',
-      'https://developer.apple.com/design/resources/',
-      'https://layers.to/explore/trending',
-      'https://endless.design/',
-      'https://www.ogimage.gallery/',
-      'https://www.radix-ui.com/colors',
-      'https://www.facebook.com/',
-   ]
+   // let collections: Collection[] = []
 
-   const results = await Promise.all(urls.map((url) => getSiteMetadata(url)))
-   const successResults = results.filter((r) => r !== null) as Website[]
+   // if (error || !data?.user) {
+   //    const user_id = '780a68ec-d534-4f73-8cd8-7e04ade0b7c5' // get this from the page path
 
+   //    const result = await supabase
+   //       .from('collections')
+   //       .select('*')
+   //       .eq('user_id', user_id)
+   //    collections = result.data ?? []
+   // } else {
+   //    const result = await supabase
+   //       .from('collections')
+   //       .select('*')
+   //       .eq('user_id', data.user.id)
+
+   //    collections = result.data ?? []
+   // }
+
+   // console.log(data.user.id)
+
+   // const { data: websites, error: xxx } = await supabase
+   //    .from('websites')
+   //    .select('*')
+
+   // console.log(websites, xxx, xxx2)
    return (
-      <main className='min-h-screen flex justify-between w-full pointer-events-auto'>
-         <Navbar collections={collections} />
+      <div className='min-h-screen w-full text-center flex flex-col items-center justify-center gap-2'>
+         <h1>Landing page</h1>
 
-         <Suspense>
-            <Sites sites={successResults} collections={collections} />
-         </Suspense>
-      </main>
+         <LoginPage />
+
+         <Link href='/christianvm' className='underline underline-offset-2'>
+            {' '}
+            View user space{' '}
+         </Link>
+      </div>
    )
 }

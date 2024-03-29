@@ -1,12 +1,4 @@
-export type Website = {
-   id: number
-   title: string
-   url: string
-   icon: string
-   image: string
-}
+import { Tables } from "@/lib/supabase/types"
 
-export type Collection = {
-   id: number
-   name: string
-}
+export type Website = Tables<'websites'>
+export type Collection = Tables<'collections'>

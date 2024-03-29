@@ -14,23 +14,138 @@ export type Database = {
                created_at: string
                id: number
                name: string
+               slug: string
                user_id: string
+               visibility: string
             }
             Insert: {
                created_at?: string
                id?: number
                name: string
+               slug?: string
                user_id: string
+               visibility?: string
             }
             Update: {
                created_at?: string
                id?: number
                name?: string
+               slug?: string
                user_id?: string
+               visibility?: string
             }
             Relationships: [
                {
                   foreignKeyName: 'public_collections_user_id_fkey'
+                  columns: ['user_id']
+                  isOneToOne: false
+                  referencedRelation: 'users'
+                  referencedColumns: ['id']
+               },
+            ]
+         }
+         profiles: {
+            Row: {
+               avatar_url: string | null
+               full_name: string | null
+               id: string
+               updated_at: string | null
+               username: string | null
+               website: string | null
+            }
+            Insert: {
+               avatar_url?: string | null
+               full_name?: string | null
+               id: string
+               updated_at?: string | null
+               username?: string | null
+               website?: string | null
+            }
+            Update: {
+               avatar_url?: string | null
+               full_name?: string | null
+               id?: string
+               updated_at?: string | null
+               username?: string | null
+               website?: string | null
+            }
+            Relationships: [
+               {
+                  foreignKeyName: 'profiles_id_fkey'
+                  columns: ['id']
+                  isOneToOne: true
+                  referencedRelation: 'users'
+                  referencedColumns: ['id']
+               },
+            ]
+         }
+         website_collections: {
+            Row: {
+               collection_id: number
+               created_at: string
+               id: number
+               website_id: number
+            }
+            Insert: {
+               collection_id: number
+               created_at?: string
+               id?: number
+               website_id: number
+            }
+            Update: {
+               collection_id?: number
+               created_at?: string
+               id?: number
+               website_id?: number
+            }
+            Relationships: [
+               {
+                  foreignKeyName: 'public_website_collections_collection_id_fkey'
+                  columns: ['collection_id']
+                  isOneToOne: false
+                  referencedRelation: 'collections'
+                  referencedColumns: ['id']
+               },
+               {
+                  foreignKeyName: 'public_website_collections_website_id_fkey'
+                  columns: ['website_id']
+                  isOneToOne: false
+                  referencedRelation: 'websites'
+                  referencedColumns: ['id']
+               },
+            ]
+         }
+         websites: {
+            Row: {
+               created_at: string
+               favicon: string | null
+               id: number
+               image: string | null
+               name: string
+               url: string
+               user_id: string
+            }
+            Insert: {
+               created_at?: string
+               favicon?: string | null
+               id?: number
+               image?: string | null
+               name: string
+               url: string
+               user_id: string
+            }
+            Update: {
+               created_at?: string
+               favicon?: string | null
+               id?: number
+               image?: string | null
+               name?: string
+               url?: string
+               user_id?: string
+            }
+            Relationships: [
+               {
+                  foreignKeyName: 'public_websites_user_id_fkey'
                   columns: ['user_id']
                   isOneToOne: false
                   referencedRelation: 'users'

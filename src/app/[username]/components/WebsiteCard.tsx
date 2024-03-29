@@ -12,20 +12,21 @@ import {
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
-export default function SiteCard({ site }: { site: Website }) {
+export default function WebsiteCard({ website }: { website: Website }) {
    const [errorOG, setErrorOG] = useState(false)
    const [errorIcon, setErrorIcon] = useState(false)
    const imageRef = useRef<HTMLImageElement | null>(null)
-   const title = site.title ?? 'Unavailable'
-   const icon = !site.icon || errorIcon ? generateIcon(title) : site.icon
+   const title = website.name ?? 'Unavailable'
+   const icon =
+      !website.favicon || errorIcon ? generateIcon(title) : website.favicon
 
    return (
       <a
-         href={site.url}
+         href={website.url}
          target='_blank'
          className='rounded-xl shadow-lg w-full flex flex-col gap-2 transition-all hover:brightness-75 focus:outline-1'
       >
-         {errorOG || !site.image ? (
+         {errorOG || !website.image ? (
             <div
                className='rounded-lg bg-zinc-900 aspect-video w-full flex justify-center text-black font-medium
                px-10 relative
@@ -37,7 +38,7 @@ export default function SiteCard({ site }: { site: Website }) {
                   </h1>
                </div>
 
-               <Browser url={site.url} icon={icon} title={title} />
+               <Browser url={website.url} icon={icon} title={title} />
             </div>
          ) : (
             <Image
@@ -48,7 +49,7 @@ export default function SiteCard({ site }: { site: Website }) {
                height={300}
                className='rounded-lg aspect-video w-full h-full object-center object-cover'
                alt={`${title} image`}
-               src={site.image}
+               src={website.image}
                onError={() => {
                   setErrorOG(true)
                }}
@@ -56,7 +57,7 @@ export default function SiteCard({ site }: { site: Website }) {
          )}
 
          <div className='flex gap-4 place-items-center'>
-            {errorIcon || !site.icon ? (
+            {errorIcon || !website.favicon ? (
                <Image
                   alt={`${title} favicon`}
                   loading='lazy'
@@ -74,7 +75,7 @@ export default function SiteCard({ site }: { site: Website }) {
                   height='16'
                   decoding='async'
                   className='object-contain'
-                  src={site.icon}
+                  src={website.favicon}
                   onError={() => {
                      setErrorIcon(true)
                   }}
