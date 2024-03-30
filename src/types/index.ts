@@ -1,4 +1,4 @@
-import { Tables } from "@/lib/supabase/types"
+import { Tables } from '@/lib/supabase/types'
 
 export type Website = Tables<'websites'>
 export type Collection = Tables<'collections'>
