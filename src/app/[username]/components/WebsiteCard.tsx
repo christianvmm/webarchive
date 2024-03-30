@@ -1,6 +1,14 @@
 'use client'
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuLabel,
+   DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Website } from '@/types'
 import { generateIcon } from '@/utils'
+
 import {
    ArrowLeftIcon,
    ArrowRightIcon,
@@ -9,6 +17,7 @@ import {
    PersonIcon,
    ReloadIcon,
 } from '@radix-ui/react-icons'
+import { EditIcon, TrashIcon } from 'lucide-react'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
@@ -85,7 +94,34 @@ export default function WebsiteCard({ website }: { website: Website }) {
                />
             )}
 
-            <h3 className='font-medium line-clamp-1'>{title}</h3>
+            <div className='flex items-center justify-between gap-5 w-full'>
+               <h1 className='font-medium line-clamp-1'>{title}</h1>
+
+               <DropdownMenu>
+                  <DropdownMenuTrigger>
+                     <button
+                        aria-label='Open website options.'
+                        className='h-6 w-6 flex items-center rounded-sm justify-center hover:bg-zinc-800'
+                     >
+                        <DotsVerticalIcon />
+                     </button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent>
+                     <DropdownMenuLabel>Website Options</DropdownMenuLabel>
+
+                     <DropdownMenuItem className='text-zinc-400'>
+                        <EditIcon className='mr-2 h-4 w-4' />
+                        <span>Edit</span>
+                     </DropdownMenuItem>
+
+                     <DropdownMenuItem className='text-zinc-400'>
+                        <TrashIcon className='mr-2 h-4 w-4' />
+                        <span className=''>Delete from collection</span>
+                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+               </DropdownMenu>
+            </div>
          </div>
       </div>
    )
