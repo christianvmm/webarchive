@@ -2,6 +2,7 @@ import { Website } from '@/types'
 import { createServerClient } from '@/lib/supabase'
 import WebsitesList from './components/WebsitesList'
 import WebsiteDialog from '@/app/[username]/components/WebsiteDialog'
+import { Island } from '@/app/[username]/components/Island'
 
 export type WebsitesPageParams = {
    params: {
@@ -58,6 +59,8 @@ export default async function AllWebsitesPage({
 
          <div className='flex flex-col items-center'>
             <WebsitesList belongsToUser={belongsToUser} websites={websites} />
+
+            <Island text='All' />
          </div>
       </div>
    )

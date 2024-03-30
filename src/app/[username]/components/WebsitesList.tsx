@@ -10,7 +10,7 @@ export default function WebsitesList({
    websites: Website[]
 }) {
    return (
-      <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 m-auto justify-items-center w-full'>
+      <ul className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 m-auto justify-items-center w-full'>
          {websites.map((website, i) => {
             return (
                <WebsiteCard
@@ -20,6 +20,6 @@ export default function WebsitesList({
                />
             )
          })}
-      </div>
+      </ul>
    )
 }

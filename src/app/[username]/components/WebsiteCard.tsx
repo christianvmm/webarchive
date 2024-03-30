@@ -36,7 +36,7 @@ export default function WebsiteCard({
       !website.favicon || errorIcon ? generateIcon(title) : website.favicon
 
    return (
-      <div className='rounded-xl shadow-lg w-full flex flex-col gap-2 transition-all  focus:outline-1'>
+      <li className='rounded-xl shadow-lg w-full flex flex-col gap-2 transition-all  focus:outline-1'>
          <a
             title={`Open ${website.name} in new tab`}
             href={website.url}
@@ -132,7 +132,7 @@ export default function WebsiteCard({
                )}
             </div>
          </div>
-      </div>
+      </li>
    )
 }
 

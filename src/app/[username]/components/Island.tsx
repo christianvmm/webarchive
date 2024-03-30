@@ -59,12 +59,16 @@ export function Island({ text }: { text?: string }) {
       }
    }, [text])
 
-   if (!localStorage) {
-      return null
+   let prevLength: number = 0
+
+   if (typeof window !== 'undefined') {
+      prevLength = Number(localStorage.getItem('prevLength') || 0)
    }
 
-   const prevLength = Number(localStorage.getItem('prevLength') || 0)
    const currLength = text?.length || 0
+
+   const prevWidth = prevLength ? baseWidth + prevLength * widthFactor : 0
+   const width = baseWidth + currLength * widthFactor
 
    return (
       <AnimatePresence>
@@ -72,13 +76,10 @@ export function Island({ text }: { text?: string }) {
             <motion.div
                key={text}
                initial={{
-                  width:
-                     prevLength === 0
-                        ? 0
-                        : baseWidth + prevLength * widthFactor,
+                  width: prevWidth,
                }}
                animate={{
-                  width: baseWidth + currLength * widthFactor,
+                  width,
                }}
                exit={{
                   width: 0,
