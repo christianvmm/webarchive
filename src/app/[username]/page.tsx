@@ -1,6 +1,7 @@
+import { Website } from '@/types'
 import { createServerClient } from '@/lib/supabase'
 import WebsitesList from './components/WebsitesList'
-import { Website } from '@/types'
+import WebsiteDialog from '@/app/[username]/components/WebsiteDialog'
 
 export type WebsitesPageParams = {
    params: {
@@ -27,9 +28,10 @@ export default async function AllWebsitesPage({
       )
    }
 
+   const belongsToUser = auth.data.user?.id === user.data.id
    let websites: Website[] = []
 
-   if (auth.data.user?.id === user.data.id) {
+   if (belongsToUser) {
       const result = await supabase.from('websites').select('*')
       websites = result.data ?? []
    } else {
@@ -48,6 +50,12 @@ export default async function AllWebsitesPage({
 
    return (
       <div className='w-full h-full'>
+         {belongsToUser && (
+            <div className='flex justify-end pb-5'>
+               <WebsiteDialog />
+            </div>
+         )}
+
          <div className='flex flex-col items-center'>
             <WebsitesList websites={websites} />
          </div>

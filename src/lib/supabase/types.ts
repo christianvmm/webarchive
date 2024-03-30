@@ -84,18 +84,21 @@ export type Database = {
                collection_id: number
                created_at: string
                id: number
+               user_id: string
                website_id: number
             }
             Insert: {
                collection_id: number
                created_at?: string
                id?: number
+               user_id: string
                website_id: number
             }
             Update: {
                collection_id?: number
                created_at?: string
                id?: number
+               user_id?: string
                website_id?: number
             }
             Relationships: [
@@ -104,6 +107,13 @@ export type Database = {
                   columns: ['collection_id']
                   isOneToOne: false
                   referencedRelation: 'collections'
+                  referencedColumns: ['id']
+               },
+               {
+                  foreignKeyName: 'public_website_collections_user_id_fkey'
+                  columns: ['user_id']
+                  isOneToOne: false
+                  referencedRelation: 'users'
                   referencedColumns: ['id']
                },
                {

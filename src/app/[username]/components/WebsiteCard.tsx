@@ -21,40 +21,43 @@ export default function WebsiteCard({ website }: { website: Website }) {
       !website.favicon || errorIcon ? generateIcon(title) : website.favicon
 
    return (
-      <a
-         href={website.url}
-         target='_blank'
-         className='rounded-xl shadow-lg w-full flex flex-col gap-2 transition-all hover:brightness-75 focus:outline-1'
-      >
-         {errorOG || !website.image ? (
-            <div
-               className='rounded-lg bg-zinc-900 aspect-video w-full flex justify-center text-black font-medium
+      <div className='rounded-xl shadow-lg w-full flex flex-col gap-2 transition-all  focus:outline-1'>
+         <a
+            title={`Open ${website.name} in new tab`}
+            href={website.url}
+            target='_blank'
+            className='hover:brightness-75'
+         >
+            {errorOG || !website.image ? (
+               <div
+                  className='rounded-lg bg-zinc-900 aspect-video w-full flex justify-center text-black font-medium
                px-10 relative
             '
-            >
-               <div className='pt-5'>
-                  <h1 className='text-white text-center line-clamp-1'>
-                     {title}
-                  </h1>
-               </div>
+               >
+                  <div className='pt-5'>
+                     <h1 className='text-white text-center line-clamp-1'>
+                        {title}
+                     </h1>
+                  </div>
 
-               <Browser url={website.url} icon={icon} title={title} />
-            </div>
-         ) : (
-            <Image
-               ref={imageRef}
-               loading='lazy'
-               decoding='async'
-               width={400}
-               height={300}
-               className='rounded-lg aspect-video w-full h-full object-center object-cover'
-               alt={`${title} image`}
-               src={website.image}
-               onError={() => {
-                  setErrorOG(true)
-               }}
-            />
-         )}
+                  <Browser url={website.url} icon={icon} title={title} />
+               </div>
+            ) : (
+               <Image
+                  ref={imageRef}
+                  loading='lazy'
+                  decoding='async'
+                  width={400}
+                  height={300}
+                  className='rounded-lg aspect-video w-full h-full object-center object-cover'
+                  alt={`${title} image`}
+                  src={website.image}
+                  onError={() => {
+                     setErrorOG(true)
+                  }}
+               />
+            )}
+         </a>
 
          <div className='flex gap-4 place-items-center'>
             {errorIcon || !website.favicon ? (
@@ -84,7 +87,7 @@ export default function WebsiteCard({ website }: { website: Website }) {
 
             <h3 className='font-medium line-clamp-1'>{title}</h3>
          </div>
-      </a>
+      </div>
    )
 }
 

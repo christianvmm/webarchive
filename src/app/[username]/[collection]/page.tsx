@@ -1,8 +1,9 @@
-import { VISIBILITY } from '@/consts'
 import { createServerClient } from '@/lib/supabase'
+import { Island } from '@/app/[username]/components/Island'
+import { VISIBILITY } from '@/consts'
 import { Website } from '@/types'
 import WebsitesList from '@/app/[username]/components/WebsitesList'
-import { Island } from '@/app/[username]/components/Island'
+import WebsiteDialog from '@/app/[username]/components/WebsiteDialog'
 
 export default async function CollectionWebsitesPage({
    params: { collection: slug },
@@ -19,11 +20,12 @@ export default async function CollectionWebsitesPage({
       .eq('slug', slug)
       .single()
 
+   const belongsToUser = auth.data.user?.id === collection.data?.user_id
+
    if (
       collection.error ||
       !collection.data ||
-      (collection.data.visibility === VISIBILITY.PRIVATE &&
-         auth.data.user?.id !== collection.data.user_id)
+      (collection.data.visibility === VISIBILITY.PRIVATE && !belongsToUser)
    ) {
       return (
          <div className='w-full h-full grid place-content-center'>
@@ -41,6 +43,12 @@ export default async function CollectionWebsitesPage({
 
    return (
       <div className='w-full h-full'>
+         {belongsToUser && (
+            <div className='flex justify-end pb-5'>
+               <WebsiteDialog />
+            </div>
+         )}
+
          <div className='flex flex-col items-center'>
             <WebsitesList websites={websites as Website[]} />
 

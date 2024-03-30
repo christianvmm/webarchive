@@ -2,7 +2,6 @@ import Navbar from './components/Navbar'
 import { Collection } from '@/types'
 import { createServerClient } from '@/lib/supabase'
 import { WebsitesPageParams } from '@/app/[username]/page'
-import { Island } from '@/app/[username]/components/Island'
 
 export default async function UserProfilePage({
    params: { username },

@@ -1,5 +1,5 @@
 'use client'
-import { cn } from '@/utils'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect } from 'react'
@@ -28,7 +28,7 @@ function CloseButton() {
    return (
       <Link
          className='flex h-6 w-6 absolute right-3 items-center justify-center rounded-full bg-white/10 transition-all'
-         href='/'
+         href='./'
       >
          <svg
             width='10'
@@ -53,12 +53,18 @@ const baseWidth = 110
 const widthFactor = 9
 
 export function Island({ text }: { text?: string }) {
+   useEffect(() => {
+      if (localStorage) {
+         localStorage.setItem('prevLength', (text?.length ?? 0).toString())
+      }
+   }, [text])
+
+   if (!localStorage) {
+      return null
+   }
+
    const prevLength = Number(localStorage.getItem('prevLength') || 0)
    const currLength = text?.length || 0
-
-   useEffect(() => {
-      localStorage.setItem('prevLength', (text?.length ?? 0).toString())
-   }, [text])
 
    return (
       <AnimatePresence>
@@ -78,7 +84,7 @@ export function Island({ text }: { text?: string }) {
                   width: 0,
                }}
                className={cn(
-                  'fixed bottom-10 z-[100] pointer-events-auto justify-between overflow-hidden rounded-full shadow-xl shadow-black/[0.05] outline-none backdrop-blur',
+                  'fixed bottom-10 z-10 pointer-events-auto justify-between overflow-hidden rounded-full shadow-xl shadow-black/[0.05] outline-none backdrop-blur',
                   !text?.length && 'hidden'
                )}
             >

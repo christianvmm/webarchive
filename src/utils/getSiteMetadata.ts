@@ -68,7 +68,7 @@ export async function getSiteMetadata(url: string) {
          id: 1,
          title: metadata.title,
          url,
-         icon: metadata.favicon,
+         favicon: metadata.favicon,
          image: metadata.ogImage,
       }
    } catch {
