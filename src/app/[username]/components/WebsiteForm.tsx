@@ -26,10 +26,12 @@ const defaultValues: WebsiteData = {
 }
 
 export function WebsiteForm({
+   initialValues,
    loading,
    collections,
    onSubmit,
 }: {
+   initialValues?: WebsiteData
    loading: boolean
    onSubmit: (data: WebsiteData) => void
    collections: Collection[]
@@ -37,7 +39,7 @@ export function WebsiteForm({
    const [loadingMetadata, setLoadingMetadata] = useState(false)
    const form = useForm<WebsiteData>({
       resolver: zodResolver(websiteSchema),
-      defaultValues,
+      defaultValues: initialValues ?? defaultValues,
    })
 
    async function updateMetadata(url: string) {
@@ -63,7 +65,7 @@ export function WebsiteForm({
       <Form {...form}>
          <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-8'
+            className='space-y-5'
             noValidate
          >
             <FormField
@@ -90,18 +92,66 @@ export function WebsiteForm({
 
             <FormField
                control={form.control}
-               name='name'
+               name='image'
                render={({ field }) => (
                   <FormItem>
-                     <FormLabel>Name</FormLabel>
+                     <FormLabel>Image</FormLabel>
                      <FormControl>
-                        <Input required {...field} disabled={disabled} />
+                        <div className='rounded-lg aspect-video w-full bg-zinc-900'>
+                           {field.value && (
+                              <img
+                                 src={field.value}
+                                 alt='Website OG Image'
+                                 className='rounded-lg aspect-video w-full object-center object-cover'
+                              />
+                           )}
+                        </div>
                      </FormControl>
 
                      <FormMessage />
                   </FormItem>
                )}
             />
+
+            <div className='flex gap-4 w-full items-end'>
+               <FormField
+                  control={form.control}
+                  name='favicon'
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Icon</FormLabel>
+                        <FormControl>
+                           <div className='h-10 w-10 p-1 bg-zinc-900 rounded-md'>
+                              {field.value && (
+                                 <img
+                                    src={field.value}
+                                    alt='Website Favicon'
+                                    className='rounded-lg aspect-square w-full h-full object-center'
+                                 />
+                              )}
+                           </div>
+                        </FormControl>
+
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+
+               <FormField
+                  control={form.control}
+                  name='name'
+                  render={({ field }) => (
+                     <FormItem className='flex-1'>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                           <Input required {...field} disabled={disabled} />
+                        </FormControl>
+
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+            </div>
 
             <FormField
                control={form.control}
@@ -127,36 +177,6 @@ export function WebsiteForm({
                      </FormItem>
                   )
                }}
-            />
-
-            <FormField
-               control={form.control}
-               name='favicon'
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Favicon</FormLabel>
-                     <FormControl>
-                        <Input required {...field} disabled={disabled} />
-                     </FormControl>
-
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-
-            <FormField
-               control={form.control}
-               name='image'
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Image</FormLabel>
-                     <FormControl>
-                        <Input required {...field} disabled={disabled} />
-                     </FormControl>
-
-                     <FormMessage />
-                  </FormItem>
-               )}
             />
 
             <div className='flex justify-end'>

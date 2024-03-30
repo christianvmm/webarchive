@@ -1,9 +1,11 @@
+import { cn } from '@/lib/utils'
 import { createServerClient } from '@/lib/supabase'
 import { Island } from '@/app/[username]/components/Island'
 import { VISIBILITY } from '@/consts'
-import { Website } from '@/types'
+import { WebsiteWithCollections } from '@/types'
+import CreateWebsite from '@/app/[username]/components/CreateWebsite'
+import UpdateWebsite from '@/app/[username]/components/UpdateWebsite'
 import WebsitesList from '@/app/[username]/components/WebsitesList'
-import WebsiteDialog from '@/app/[username]/components/WebsiteDialog'
 
 export default async function CollectionWebsitesPage({
    params: { collection: slug },
@@ -35,25 +37,57 @@ export default async function CollectionWebsitesPage({
    }
 
    const { data } = await supabase
-      .from('website_collections')
-      .select('websites(*)')
-      .eq('collection_id', collection.data.id)
+      .from('websites')
+      .select('*, website_collections!inner(collection_id)')
+      .eq('website_collections.collection_id', collection.data.id)
 
-   const websites = data ? data.map((c) => c.websites) : []
+   const websites: WebsiteWithCollections[] = data
+      ? data.map((item) => {
+           const { website_collections, ...website } = item
+           return {
+              ...website,
+              collectionIds: website_collections.map((c) => c.collection_id),
+           }
+        })
+      : []
 
    return (
       <div className='w-full h-full'>
-         {belongsToUser && (
-            <div className='flex justify-end pb-5'>
-               <WebsiteDialog />
-            </div>
-         )}
+         <div className='flex justify-end pb-5 min-h-16 w-full'>
+            {belongsToUser && (
+               <>
+                  <UpdateWebsite />
+                  <CreateWebsite />
+               </>
+            )}
+         </div>
 
-         <div className='flex flex-col items-center'>
-            <WebsitesList
-               belongsToUser={belongsToUser}
-               websites={websites as Website[]}
-            />
+         <div
+            className={cn(
+               'flex flex-col items-center w-full',
+               !websites.length && 'h-full'
+            )}
+         >
+            {websites.length ? (
+               <WebsitesList
+                  belongsToUser={belongsToUser}
+                  websites={websites}
+               />
+            ) : (
+               <div className='grid place-items-center h-full w-full text-center'>
+                  <div>
+                     <h1 className='text-lg font-medium'>
+                        Collection &quot;{collection.data?.name}&quot; is empty.
+                     </h1>
+
+                     {belongsToUser && (
+                        <p className='mt-2'>
+                           Create a new website or add an existing one.
+                        </p>
+                     )}
+                  </div>
+               </div>
+            )}
 
             <Island text={collection.data?.name} />
          </div>

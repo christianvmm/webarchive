@@ -1,4 +1,7 @@
 'use client'
+import { removeWebsite } from '@/app/[username]/actions/removeWebsite'
+import { removeWebsiteFromCollection } from '@/app/[username]/actions/removeWebsiteFromCollection'
+import { useWebsiteStore } from '@/app/[username]/store'
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -6,7 +9,7 @@ import {
    DropdownMenuLabel,
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Website } from '@/types'
+import { WebsiteWithCollections } from '@/types'
 import { generateIcon } from '@/utils'
 
 import {
@@ -19,6 +22,7 @@ import {
 } from '@radix-ui/react-icons'
 import { EditIcon, TrashIcon } from 'lucide-react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { useRef, useState } from 'react'
 
 export default function WebsiteCard({
@@ -26,11 +30,19 @@ export default function WebsiteCard({
    website,
 }: {
    belongsToUser: boolean
-   website: Website
+   website: WebsiteWithCollections
 }) {
    const [errorOG, setErrorOG] = useState(false)
    const [errorIcon, setErrorIcon] = useState(false)
    const imageRef = useRef<HTMLImageElement | null>(null)
+   const openDialog = useWebsiteStore((s) => s.openWebsiteDialog)
+
+   // Check if user is in /[username] or /[username]/[collection]
+   const pathname = usePathname()
+   const parts = pathname.split('/').filter((segment) => segment !== '')
+   const [_, collection] = parts
+   const all = parts.length === 1
+
    const title = website.name ?? 'Unavailable'
    const icon =
       !website.favicon || errorIcon ? generateIcon(title) : website.favicon
@@ -118,15 +130,38 @@ export default function WebsiteCard({
                      <DropdownMenuContent>
                         <DropdownMenuLabel>Website Options</DropdownMenuLabel>
 
-                        <DropdownMenuItem className='text-zinc-400'>
+                        <DropdownMenuItem
+                           className='text-zinc-400'
+                           onClick={() => openDialog(website)}
+                        >
                            <EditIcon className='mr-2 h-4 w-4' />
                            <span>Edit</span>
                         </DropdownMenuItem>
 
-                        <DropdownMenuItem className='text-zinc-400'>
-                           <TrashIcon className='mr-2 h-4 w-4' />
-                           <span className=''>Delete from collection</span>
-                        </DropdownMenuItem>
+                        {all ? (
+                           <DropdownMenuItem
+                              className='text-zinc-400'
+                              onClick={() => {
+                                 removeWebsite(website.id)
+                              }}
+                           >
+                              <TrashIcon className='mr-2 h-4 w-4' />
+                              <span>Delete</span>
+                           </DropdownMenuItem>
+                        ) : (
+                           <DropdownMenuItem
+                              className='text-zinc-400'
+                              onClick={() => {
+                                 removeWebsiteFromCollection({
+                                    websiteId: website.id,
+                                    slug: collection,
+                                 })
+                              }}
+                           >
+                              <TrashIcon className='mr-2 h-4 w-4' />
+                              <span>Remove from collection</span>
+                           </DropdownMenuItem>
+                        )}
                      </DropdownMenuContent>
                   </DropdownMenu>
                )}
