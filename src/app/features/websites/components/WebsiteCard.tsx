@@ -1,7 +1,7 @@
 'use client'
-import { removeWebsite } from '@/app/[username]/actions/removeWebsite'
-import { removeWebsiteFromCollection } from '@/app/[username]/actions/removeWebsiteFromCollection'
-import { useWebsiteStore } from '@/app/[username]/store'
+import { removeWebsite } from '@/app/features/websites/actions/removeWebsite'
+import { removeWebsiteFromCollection } from '@/app/features/websites/actions/removeWebsiteFromCollection'
+import { useWebsiteStore } from '@/app/features/websites/store'
 import {
    DropdownMenu,
    DropdownMenuContent,

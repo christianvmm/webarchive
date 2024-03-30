@@ -8,9 +8,9 @@ import {
 } from '@/components/ui/dialog'
 import { useDisclosure } from '@/hooks'
 import { Collection } from '@/types'
-import { WebsiteForm } from '@/app/[username]/components/WebsiteForm'
-import { WebsiteData } from '@/app/[username]/model'
-import { createWebsite } from '@/app/[username]/actions/createWebsite'
+import { WebsiteForm } from '@/app/features/websites/components/WebsiteForm'
+import { WebsiteData } from '@/app/features/websites/model'
+import { createWebsite } from '@/app/features/websites/actions/createWebsite'
 import { useState } from 'react'
 
 export default function CreateWebsiteDialog({

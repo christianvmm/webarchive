@@ -1,10 +1,10 @@
 'use server'
 
-import { WebsiteData } from '@/app/[username]/model'
+import { WebsiteData } from '@/app/features/websites/model'
 import { createServerClient } from '@/lib/supabase'
 import { revalidatePath } from 'next/cache'
 
-export async function updateWebsite(data: WebsiteData & { id: number }) {
+export async function createWebsite(data: WebsiteData) {
    const supabase = createServerClient()
    const auth = await supabase.auth.getUser()
 
@@ -12,32 +12,20 @@ export async function updateWebsite(data: WebsiteData & { id: number }) {
       throw new Error('Unauthenticated.')
    }
 
-   /**
-    * Update website
-    */
    const website = await supabase
       .from('websites')
-      .update({
+      .insert({
          user_id: auth.data.user.id,
          name: data.name,
          url: data.url,
          favicon: data.favicon,
          image: data.image,
       })
-      .eq('id', data.id)
       .select()
 
    if (website.error || !website.data) {
-      throw new Error("Couldn't update website.")
+      throw new Error("Couldn't create website.")
    }
-
-   /**
-    * Update collections
-    */
-   await supabase
-      .from('website_collections')
-      .delete()
-      .eq('website_id', website.data[0].id)
 
    const websiteCollections = data.collectionIds.map((id) => {
       return {
@@ -52,7 +40,7 @@ export async function updateWebsite(data: WebsiteData & { id: number }) {
       .insert(websiteCollections)
 
    if (result.error) {
-      throw new Error("Couldn't update website collections, try again.")
+      throw new Error("Couldn't save website in collections, try again.")
    }
 
    const profile = await supabase

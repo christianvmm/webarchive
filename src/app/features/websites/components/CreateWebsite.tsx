@@ -1,7 +1,7 @@
-import UpdateWebsiteDialog from '@/app/[username]/components/UpdateWebsiteDialog'
+import CreateWebsiteDialog from '@/app/features/websites/components/CreateWebsiteDialog'
 import { createServerClient } from '@/lib/supabase'
 
-export default async function UpdateWebsite() {
+export default async function CreateWebsite() {
    const supabase = createServerClient()
    const auth = await supabase.auth.getUser()
 
@@ -14,5 +14,5 @@ export default async function UpdateWebsite() {
       .select('*')
       .eq('user_id', auth.data.user.id)
 
-   return <UpdateWebsiteDialog collections={collections.data ?? []} />
+   return <CreateWebsiteDialog collections={collections.data ?? []} />
 }
