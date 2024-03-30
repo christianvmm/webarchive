@@ -57,7 +57,7 @@ export default async function AllWebsitesPage({
          )}
 
          <div className='flex flex-col items-center'>
-            <WebsitesList websites={websites} />
+            <WebsitesList belongsToUser={belongsToUser} websites={websites} />
          </div>
       </div>
    )

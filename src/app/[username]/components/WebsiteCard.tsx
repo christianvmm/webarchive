@@ -21,7 +21,13 @@ import { EditIcon, TrashIcon } from 'lucide-react'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
-export default function WebsiteCard({ website }: { website: Website }) {
+export default function WebsiteCard({
+   belongsToUser,
+   website,
+}: {
+   belongsToUser: boolean
+   website: Website
+}) {
    const [errorOG, setErrorOG] = useState(false)
    const [errorIcon, setErrorIcon] = useState(false)
    const imageRef = useRef<HTMLImageElement | null>(null)
@@ -97,30 +103,33 @@ export default function WebsiteCard({ website }: { website: Website }) {
             <div className='flex items-center justify-between gap-5 w-full'>
                <h1 className='font-medium line-clamp-1'>{title}</h1>
 
-               <DropdownMenu>
-                  <DropdownMenuTrigger>
-                     <button
-                        aria-label='Open website options.'
-                        className='h-6 w-6 flex items-center rounded-sm justify-center hover:bg-zinc-800'
-                     >
-                        <DotsVerticalIcon />
-                     </button>
-                  </DropdownMenuTrigger>
+               {belongsToUser && (
+                  <DropdownMenu>
+                     <DropdownMenuTrigger>
+                        <div
+                           role='button'
+                           aria-label='Open website options.'
+                           className='h-6 w-6 flex items-center rounded-sm justify-center hover:bg-zinc-800'
+                        >
+                           <DotsVerticalIcon />
+                        </div>
+                     </DropdownMenuTrigger>
 
-                  <DropdownMenuContent>
-                     <DropdownMenuLabel>Website Options</DropdownMenuLabel>
+                     <DropdownMenuContent>
+                        <DropdownMenuLabel>Website Options</DropdownMenuLabel>
 
-                     <DropdownMenuItem className='text-zinc-400'>
-                        <EditIcon className='mr-2 h-4 w-4' />
-                        <span>Edit</span>
-                     </DropdownMenuItem>
+                        <DropdownMenuItem className='text-zinc-400'>
+                           <EditIcon className='mr-2 h-4 w-4' />
+                           <span>Edit</span>
+                        </DropdownMenuItem>
 
-                     <DropdownMenuItem className='text-zinc-400'>
-                        <TrashIcon className='mr-2 h-4 w-4' />
-                        <span className=''>Delete from collection</span>
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
+                        <DropdownMenuItem className='text-zinc-400'>
+                           <TrashIcon className='mr-2 h-4 w-4' />
+                           <span className=''>Delete from collection</span>
+                        </DropdownMenuItem>
+                     </DropdownMenuContent>
+                  </DropdownMenu>
+               )}
             </div>
          </div>
       </div>

@@ -50,7 +50,10 @@ export default async function CollectionWebsitesPage({
          )}
 
          <div className='flex flex-col items-center'>
-            <WebsitesList websites={websites as Website[]} />
+            <WebsitesList
+               belongsToUser={belongsToUser}
+               websites={websites as Website[]}
+            />
 
             <Island text={collection.data?.name} />
          </div>
