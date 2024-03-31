@@ -5,6 +5,7 @@ import { createServerClient } from '@/lib/supabase'
 import { revalidatePath } from 'next/cache'
 
 export async function createWebsite(data: WebsiteData) {
+   // TODO: Validate URL
    const supabase = createServerClient()
    const auth = await supabase.auth.getUser()
 

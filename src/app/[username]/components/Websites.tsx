@@ -2,6 +2,8 @@ import { BookmarkFilledIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { Collection, WebsiteWithCollections } from '@/types'
 import { Island } from '@/app/[username]/components/Island'
+import { Search } from '@/app/[username]/components/Search'
+import { SortBy } from '@/app/[username]/components/SortBy'
 import CreateWebsite from '@/features/websites/components/CreateWebsite'
 import ICONS from '@/consts/icons'
 import UpdateWebsite from '@/features/websites/components/UpdateWebsite'
@@ -22,7 +24,12 @@ export default function Websites({
 
    return (
       <div className='w-full h-full'>
-         <div className='flex justify-end h-20 items-center w-full px-10  border-dashed border-zinc-800'>
+         <div className='flex justify-end h-20 items-center w-full px-10 gap-4 sticky top-0  bg-background z-10'>
+            <p className='text-sm text-muted-foreground'>Results: {websites.length}</p>
+
+            <Search />
+            <SortBy />
+
             {belongsToUser && (
                <>
                   <UpdateWebsite />
@@ -34,7 +41,7 @@ export default function Websites({
          <div
             className={cn(
                'flex flex-col items-center w-full p-8 pt-0',
-               !websites.length && 'h-full'
+               !websites.length && 'h-[calc(100%-10rem)]'
             )}
          >
             {websites.length ? (
@@ -42,29 +49,29 @@ export default function Websites({
                   belongsToUser={belongsToUser}
                   websites={websites}
                />
-            ) : collection ? (
-               <div className='grid place-items-center h-full w-full text-center'>
-                  <div>
-                     <h1 className='text-lg font-medium'>
-                        Collection &quot;{collection?.name}&quot; is empty.
-                     </h1>
-
-                     {belongsToUser && (
-                        <p className='mt-2'>
-                           Create a new website or add an existing one.
-                        </p>
-                     )}
-                  </div>
-               </div>
             ) : (
                <div className='grid place-items-center h-full w-full text-center'>
-                  <div>
-                     <h1 className='text-lg font-medium'>
-                        {belongsToUser
-                           ? "You don't have any website."
-                           : `${username} space is empty.`}
-                     </h1>
-                  </div>
+                  {collection ? (
+                     <div>
+                        <h1 className='text-lg font-medium'>
+                           Collection &quot;{collection?.name}&quot; is empty.
+                        </h1>
+
+                        {belongsToUser && (
+                           <p className='mt-2'>
+                              Create a new website or add an existing one.
+                           </p>
+                        )}
+                     </div>
+                  ) : (
+                     <div>
+                        <h1 className='text-lg font-medium'>
+                           {belongsToUser
+                              ? "You don't have any website."
+                              : `${username} space is empty.`}
+                        </h1>
+                     </div>
+                  )}
                </div>
             )}
 

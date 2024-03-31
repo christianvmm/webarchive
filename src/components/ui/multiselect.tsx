@@ -32,7 +32,7 @@ interface MultiSelectProps {
 
 function MultiSelect({
    options = [],
-   selected,
+   selected = [],
    onChange,
    className,
    ...props

@@ -44,7 +44,7 @@ export default function CreateWebsiteDialog({
       <Dialog open={open} onOpenChange={onOpenChange}>
          <DialogTrigger asChild>
             <Button className='h-8 gap-1'>
-               <PlusCircle className='h-5  w-5' />
+               <PlusCircle className='h-3.5 w-3.5' />
                Add Website
             </Button>
          </DialogTrigger>
@@ -56,9 +56,7 @@ export default function CreateWebsiteDialog({
 
             <WebsiteForm
                initialValues={{
-                  collectionIds: collection
-                     ? [collection.id.toString()]
-                     : undefined,
+                  collectionIds: collection ? [collection.id.toString()] : [],
                }}
                loading={loading}
                onSubmit={onSubmit}

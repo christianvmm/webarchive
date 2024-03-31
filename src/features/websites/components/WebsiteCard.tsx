@@ -206,26 +206,28 @@ function Browser({
          </div>
 
          <div className='bg-white h-full rounded-t-md'>
-            <div className='h-6 flex justify-between p-1'>
-               <div className='w-14 flex items-center'>
+            <div className='h-6 p-1 grid grid-cols-12'>
+               <div className='w-14 flex items-center col-span-2'>
                   <ArrowLeftIcon className='h-[0.5rem]' />
                   <ArrowRightIcon className='h-[0.5rem] text-zinc-400' />
                   <ReloadIcon className='h-[0.4rem]' />
                </div>
 
-               <div className='flex-1 bg-[#E1E3EA] rounded-lg flex items-center px-1 justify-between'>
-                  <div className='flex items-center gap-1'>
+               <div className='flex-1 bg-[#E1E3EA] rounded-lg flex items-center gap-1 px-1 justify-between col-span-9'>
+                  <div className='flex items-center gap-1 overflow-hidden flex-1'>
                      <div className='rounded-full bg-white h-[0.5rem] w-[0.5rem] flex justify-center items-center'>
                         <MixerHorizontalIcon className='h-[0.4rem] w-auto' />
                      </div>
 
-                     <p className='text-[0.4rem] font-light'>{url}</p>
+                     <p className='text-[0.4rem] font-light w-full text-nowrap'>
+                        {url}
+                     </p>
                   </div>
 
                   <span className='text-[0.4rem]'>&#9734;</span>
                </div>
 
-               <div className='w-7 flex items-center justify-end'>
+               <div className='w-7 flex items-center justify-end col-span-1'>
                   <div className='h-[0.5rem] w-[0.5rem] rounded-full bg-zinc-300 flex items-center justify-center'>
                      <PersonIcon className='h-[0.3rem]' />
                   </div>

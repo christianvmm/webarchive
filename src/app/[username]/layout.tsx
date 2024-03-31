@@ -41,7 +41,6 @@ export default async function UserProfilePage({
    const belongsToUser =
       Boolean(user.data) && auth.data.user?.id === user.data?.id
 
-   // TODO: FIX min-h-screen
    return (
       <div className='min-h-screen flex justify-between w-full pointer-events-auto'>
          <Navbar

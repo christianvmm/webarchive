@@ -5,9 +5,14 @@ import Websites from '@/app/[username]/components/Websites'
 
 export default async function CollectionWebsitesPage({
    params: { collection: slug },
+   searchParams,
 }: {
    params: {
       collection: string
+   }
+   searchParams?: {
+      query?: string
+      sortBy?: string
    }
 }) {
    const supabase = createServerClient()
@@ -23,7 +28,7 @@ export default async function CollectionWebsitesPage({
    if (
       collection.error ||
       !collection.data ||
-      (collection.data.visibility === VISIBILITY.PRIVATE && !belongsToUser)
+      (collection.data.visibility !== VISIBILITY.PUBLIC && !belongsToUser)
    ) {
       return (
          <div className='w-full h-full grid place-content-center'>
@@ -32,11 +37,35 @@ export default async function CollectionWebsitesPage({
       )
    }
 
-   const { data } = await supabase
+   // if (collection.data.visibility === VISIBILITY.HIDDEN) {
+   //    return (
+   //       <div className='w-full h-full grid place-content-center'>
+   //          <h1 className='text-lg font-medium'>
+   //             Password required to view this Collection
+   //          </h1>
+
+   //          <Input className='mt-5' type='password' />
+   //       </div>
+   //    )
+   // }
+
+   let order = 'created_at'
+   let sortOptions = { ascending: false }
+
+   if (searchParams?.sortBy === 'name' || searchParams?.sortBy === 'url') {
+      order = searchParams.sortBy
+      sortOptions = { ascending: true }
+   }
+
+   const query = searchParams?.query || ''
+
+   let { data } = await supabase
       .from('websites')
       .select('*, website_collections!inner(collection_id)')
       .eq('website_collections.collection_id', collection.data.id)
-      .order('created_at', { ascending: false })
+      .order(order, sortOptions)
+      .ilike('name', `%${query}%`)
+      .ilike('url', `%${query}%`)
 
    const websites: WebsiteWithCollections[] = data
       ? data.map((item) => {
