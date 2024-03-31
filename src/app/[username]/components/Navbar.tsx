@@ -34,11 +34,11 @@ export default function Navbar({
          className='w-64 h-screen max-h-screen fixed pb-[3%] border-r border-dashed border-zinc-800 overflow-y-auto hidden lg:block
       '
       >
-         <header className='h-20 border-b border-dashed border-zinc-800 px-4 flex items-center'>
+         <header className='h-20 border-zinc-800 px-4 flex items-center'>
             <h1 className='text-lg font-semibold'>WebArchive</h1>
          </header>
 
-         <div className='flex items-center justify-between p-4 pt-8'>
+         <div className='flex items-center justify-between p-4 pt-0'>
             <h1 className='font-semibold'>Collections</h1>
 
             {belongsToUser && (

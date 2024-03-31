@@ -22,6 +22,7 @@ export async function updateCollection(
       .update({
          name: data.name,
          icon: data.icon,
+         visibility: data.visibility,
          slug: slugify(data.name),
       })
       .eq('id', data.id)
