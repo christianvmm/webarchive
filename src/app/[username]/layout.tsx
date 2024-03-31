@@ -38,11 +38,18 @@ export default async function UserProfilePage({
       }
    }
 
+   const belongsToUser =
+      Boolean(user.data) && auth.data.user?.id === user.data?.id
+
    return (
       <div className='min-h-screen flex justify-between w-full pointer-events-auto'>
-         <Navbar username={username} collections={collections} />
+         <Navbar
+            belongsToUser={belongsToUser}
+            username={username}
+            collections={collections}
+         />
 
-         <main className='w-full lg:w-[calc(100%-256px)] ml-auto p-[3%] pb-32'>
+         <main className='w-full lg:w-[calc(100%-256px)] ml-auto'>
             {children}
          </main>
       </div>

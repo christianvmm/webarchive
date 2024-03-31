@@ -41,7 +41,7 @@ export default function CreateWebsiteDialog({
    return (
       <Dialog open={open} onOpenChange={onOpenChange}>
          <DialogTrigger asChild>
-            <Button className='h-10 gap-1'>
+            <Button className='h-8 gap-1'>
                <PlusCircle className='h-5  w-5' />
                Add Website
             </Button>

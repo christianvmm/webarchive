@@ -13,6 +13,9 @@ import {
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
 
+// TODO: THIS FORM IMPLEMENTATION RE-RENDERS BODY ON EVERY onChange, so kills all the performance of react-hook-form
+// Create my own without necessarily use FormProvider: https://react-hook-form.com/advanced-usage#FormProviderPerformance
+
 const Form = FormProvider
 
 type FormFieldContextValue<

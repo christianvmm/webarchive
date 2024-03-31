@@ -113,7 +113,7 @@ export function WebsiteForm({
                )}
             />
 
-            <div className='flex gap-4 w-full items-end'>
+            <div className='flex gap-4 w-full items-start'>
                <FormField
                   control={form.control}
                   name='favicon'

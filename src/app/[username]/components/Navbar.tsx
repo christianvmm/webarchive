@@ -2,41 +2,57 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Collection } from '@/types'
-import { File, Package, PlusCircle } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+import CreateCollection from '@/features/collections/components/CreateCollection'
+import ICONS from '@/consts/icons'
+import { BookmarkFilledIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
+import { EditIcon, TrashIcon } from 'lucide-react'
+import { removeCollection } from '@/features/collections/actions/removeCollection'
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuLabel,
+   DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import UpdateCollection from '@/features/collections/components/UpdateCollection'
+import { useCollectionStore } from '@/features/collections/store'
 
 export default function Navbar({
+   belongsToUser,
    username,
    collections,
 }: {
+   belongsToUser: boolean
    username: string
    collections: Collection[]
 }) {
    const pathname = usePathname()
 
    return (
-      <nav className='w-64 h-screen max-h-screen fixed py-[3%] px-[1%] border-r border-zinc-800 overflow-y-auto hidden lg:block'>
-         <header className='px-3 py-8'>
+      <nav
+         className='w-64 h-screen max-h-screen fixed pb-[3%] border-r border-dashed border-zinc-800 overflow-y-auto hidden lg:block
+      '
+      >
+         <header className='h-20 border-b border-dashed border-zinc-800 px-4 flex items-center'>
             <h1 className='text-lg font-semibold'>WebArchive</h1>
          </header>
 
-         <div className='flex items-center justify-between pl-3 pb-4'>
+         <div className='flex items-center justify-between p-4 pt-8'>
             <h1 className='font-semibold'>Collections</h1>
 
-            <div>
-               <Button size='sm' variant='outline' className='h-8 gap-1'>
-                  <PlusCircle className='h-3.5  w-3.5' />
-
-                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-                     Create
-                  </span>
-               </Button>
-            </div>
+            {belongsToUser && (
+               <>
+                  <CreateCollection />
+                  <UpdateCollection />
+               </>
+            )}
          </div>
 
-         <ul>
+         <ul className='px-4'>
             <NavLinkItem
+               belongsToUser={belongsToUser}
+               icon='BookmarkFilledIcon'
                href={`/${username}`}
                active={pathname === `/${username}`}
             >
@@ -47,7 +63,14 @@ export default function Navbar({
                const href = `/${username}/${collection.slug}`
                const active = href === pathname
                return (
-                  <NavLinkItem href={href} active={active} key={collection.id}>
+                  <NavLinkItem
+                     belongsToUser={belongsToUser}
+                     icon={collection.icon}
+                     href={href}
+                     active={active}
+                     key={collection.id}
+                     collection={collection}
+                  >
                      {collection.name}
                   </NavLinkItem>
                )
@@ -58,27 +81,84 @@ export default function Navbar({
 }
 
 function NavLinkItem({
+   belongsToUser,
+   icon,
    href,
    children,
    active,
+   collection,
 }: {
+   belongsToUser: boolean
+   icon: string
    href: string
    active: boolean
-   children: React.ReactNode
+   children: string
+   collection?: Collection
 }) {
+   const Icon = ICONS[icon]
+   const openDialog = useCollectionStore((s) => s.openCollectionDialog)
+
    return (
-      <li>
-         <Link
-            href={href}
-            className={cn(
-               'flex items-center gap-3 rounded-md px-3 py-2 text-muted-foreground transition-colors hover:text-primary',
-               active ? 'bg-muted' : ''
+      <li
+         className={cn(
+            'flex justify-between rounded-md text-muted-foreground transition-colors hover:text-primary pl-3 pr-1 py-2',
+            active ? 'bg-muted' : ''
+         )}
+      >
+         <Link href={href} className={cn('flex-1 flex items-center gap-3')}>
+            {icon ? (
+               <Icon className='w-4 h-4' />
+            ) : (
+               <BookmarkFilledIcon className='w-4 h-4' />
             )}
-         >
-            <Package className='h-4 w-4' />
 
             <p className='line-clamp-1 flex-1'>{children}</p>
          </Link>
+
+         {belongsToUser && children !== 'All' && (
+            <DropdownMenu>
+               <DropdownMenuTrigger>
+                  <div
+                     role='button'
+                     aria-label='Open website options.'
+                     className='h-6 w-6 z-10 flex items-center rounded-sm justify-center hover:bg-zinc-700'
+                     onClick={(e) => {
+                        e.stopPropagation()
+                     }}
+                  >
+                     <DotsVerticalIcon />
+                  </div>
+               </DropdownMenuTrigger>
+
+               <DropdownMenuContent>
+                  <DropdownMenuLabel>{children}</DropdownMenuLabel>
+
+                  <DropdownMenuItem
+                     className='text-zinc-400'
+                     onClick={() => {
+                        if (collection) {
+                           openDialog(collection)
+                        }
+                     }}
+                  >
+                     <EditIcon className='mr-2 h-4 w-4' />
+                     <span>Edit</span>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                     className='text-zinc-400'
+                     onClick={() => {
+                        if (collection) {
+                           removeCollection(collection.id)
+                        }
+                     }}
+                  >
+                     <TrashIcon className='mr-2 h-4 w-4' />
+                     <span>Delete</span>
+                  </DropdownMenuItem>
+               </DropdownMenuContent>
+            </DropdownMenu>
+         )}
       </li>
    )
 }

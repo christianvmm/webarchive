@@ -1,33 +1,18 @@
 'use client'
-import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect } from 'react'
 
-function Icon() {
-   return (
-      <div className='h-6 w-6'>
-         <div className='w-full h-full'>
-            <canvas
-               style={{
-                  verticalAlign: 'top',
-                  width: '24px',
-                  height: '24px',
-               }}
-            ></canvas>
-         </div>
-      </div>
-   )
-}
-
 function Divider() {
-   return <div className='h-5 w-px bg-white/10'></div>
+   return <div className='h-5 w-px bg-zinc-800'></div>
 }
 
 function CloseButton() {
    return (
       <Link
-         className='flex h-6 w-6 absolute right-3 items-center justify-center rounded-full bg-white/10 transition-all'
+         title='Go to All'
+         className='flex h-6 w-6 absolute right-3 items-center justify-center rounded-full bg-zinc-800 transition-all'
          href='./'
       >
          <svg
@@ -36,7 +21,7 @@ function CloseButton() {
             viewBox='0 0 10 10'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
-            className='text-white/50 transition-all group-hover:text-white/80'
+            className='text-zinc-600 transition-all group-hover:text-white/80'
          >
             <path
                fillRule='evenodd'
@@ -52,7 +37,13 @@ function CloseButton() {
 const baseWidth = 110
 const widthFactor = 9
 
-export function Island({ text }: { text?: string }) {
+export function Island({
+   icon,
+   text,
+}: {
+   icon: React.ReactNode
+   text?: string
+}) {
    useEffect(() => {
       if (localStorage) {
          localStorage.setItem('prevLength', (text?.length ?? 0).toString())
@@ -90,10 +81,11 @@ export function Island({ text }: { text?: string }) {
                )}
             >
                <div className='flex w-full bg-zinc-900 items-center h-10 px-3 group relative'>
-                  <div className='flex items-center h-full gap-3'>
-                     <Icon />
-                     <Divider />
+                  <div className='flex items-center gap-3 justify-center h-6 w-6 ml-1 mr-3'>
+                     {icon}
                   </div>
+
+                  <Divider />
 
                   <motion.p
                      key={text}
@@ -106,11 +98,12 @@ export function Island({ text }: { text?: string }) {
                      animate={{
                         opacity: 1,
                      }}
-                     className='whitespace-nowrap pl-3 font-semibold text-white'
+                     className='whitespace-nowrap px-3 font-semibold text-white flex-1 text-center'
                   >
                      {text}
                   </motion.p>
 
+                  <div className='w-6 h-1' />
                   <CloseButton />
                </div>
             </motion.div>
