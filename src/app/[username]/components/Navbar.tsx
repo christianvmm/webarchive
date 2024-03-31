@@ -38,7 +38,7 @@ export default function Navbar({
             <h1 className='text-lg font-semibold'>WebArchive</h1>
          </header>
 
-         <div className='flex items-center justify-between p-4 pt-0'>
+         <div className='flex items-center justify-between p-4 pt-0 h-12'>
             <h1 className='font-semibold'>Collections</h1>
 
             {belongsToUser && (

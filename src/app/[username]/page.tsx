@@ -34,18 +34,29 @@ export default async function AllWebsitesPage({
    if (belongsToUser) {
       const { data } = await supabase
          .from('websites')
-         .select('*, website_collections(collection_id)')
+         .select(
+            '*, website_collections(collection_id, collections!inner(visibility))'
+         )
+         .neq('website_collections.collections.visibility', VISIBILITY.HIDDEN)
          .order('created_at', { ascending: false })
 
-      websites = data
-         ? data.map((item) => {
-              const { website_collections, ...website } = item
-              return {
-                 ...website,
-                 collectionIds: website_collections.map((c) => c.collection_id),
-              }
-           })
-         : []
+      if (data) {
+         // TODO: Refactor
+         for (const item of data) {
+            const { website_collections, ...website } = item
+
+            if (!website_collections || !website_collections.length) {
+               continue
+            }
+
+            websites.push({
+               ...website,
+               collectionIds: website_collections.map((c) => c.collection_id),
+            })
+         }
+      } else {
+         websites = []
+      }
    } else {
       const { data } = await supabase
          .from('websites')

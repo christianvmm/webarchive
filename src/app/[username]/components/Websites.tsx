@@ -26,7 +26,7 @@ export default function Websites({
             {belongsToUser && (
                <>
                   <UpdateWebsite />
-                  <CreateWebsite />
+                  <CreateWebsite collection={collection} />
                </>
             )}
          </div>

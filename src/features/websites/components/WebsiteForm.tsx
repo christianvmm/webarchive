@@ -31,7 +31,7 @@ export function WebsiteForm({
    collections,
    onSubmit,
 }: {
-   initialValues?: WebsiteData
+   initialValues?: Partial<WebsiteData>
    loading: boolean
    onSubmit: (data: WebsiteData) => void
    collections: Collection[]
@@ -39,7 +39,9 @@ export function WebsiteForm({
    const [loadingMetadata, setLoadingMetadata] = useState(false)
    const form = useForm<WebsiteData>({
       resolver: zodResolver(websiteSchema),
-      defaultValues: initialValues ?? defaultValues,
+      defaultValues: initialValues
+         ? { ...defaultValues, ...initialValues }
+         : defaultValues,
    })
 
    async function updateMetadata(url: string) {

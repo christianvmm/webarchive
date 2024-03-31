@@ -17,8 +17,10 @@ import { Button } from '@/components/ui/button'
 
 export default function CreateWebsiteDialog({
    collections = [],
+   collection,
 }: {
    collections: Collection[]
+   collection?: Collection
 }) {
    const [loading, setLoading] = useState(false)
    const { open, onOpenChange, onClose } = useDisclosure()
@@ -53,6 +55,11 @@ export default function CreateWebsiteDialog({
             </DialogHeader>
 
             <WebsiteForm
+               initialValues={{
+                  collectionIds: collection
+                     ? [collection.id.toString()]
+                     : undefined,
+               }}
                loading={loading}
                onSubmit={onSubmit}
                collections={collections}

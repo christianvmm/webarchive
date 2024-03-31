@@ -118,11 +118,14 @@ export function CollectionForm({
                            </SelectTrigger>
 
                            <SelectContent>
+                              <SelectItem value={VISIBILITY.PUBLIC}>
+                                 Public
+                              </SelectItem>
                               <SelectItem value={VISIBILITY.PRIVATE}>
                                  Private
                               </SelectItem>
-                              <SelectItem value={VISIBILITY.PUBLIC}>
-                                 Public
+                              <SelectItem value={VISIBILITY.HIDDEN}>
+                                 Hidden
                               </SelectItem>
                            </SelectContent>
                         </Select>

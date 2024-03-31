@@ -138,17 +138,7 @@ export default function WebsiteCard({
                            <span>Edit</span>
                         </DropdownMenuItem>
 
-                        {all ? (
-                           <DropdownMenuItem
-                              className='text-zinc-400'
-                              onClick={() => {
-                                 removeWebsite(website.id)
-                              }}
-                           >
-                              <TrashIcon className='mr-2 h-4 w-4' />
-                              <span>Delete</span>
-                           </DropdownMenuItem>
-                        ) : (
+                        {!all && (
                            <DropdownMenuItem
                               className='text-zinc-400'
                               onClick={() => {
@@ -162,6 +152,16 @@ export default function WebsiteCard({
                               <span>Remove from collection</span>
                            </DropdownMenuItem>
                         )}
+
+                        <DropdownMenuItem
+                           className='text-zinc-400'
+                           onClick={() => {
+                              removeWebsite(website.id)
+                           }}
+                        >
+                           <TrashIcon className='mr-2 h-4 w-4' />
+                           <span>Delete</span>
+                        </DropdownMenuItem>
                      </DropdownMenuContent>
                   </DropdownMenu>
                )}
