@@ -1,4 +1,4 @@
-import UpdateWebsiteDialog from '@/app/features/websites/components/UpdateWebsiteDialog'
+import UpdateWebsiteDialog from '@/features/websites/components/UpdateWebsiteDialog'
 import { createServerClient } from '@/lib/supabase'
 
 export default async function UpdateWebsite() {

@@ -1,6 +1,6 @@
 'use server'
 
-import { WebsiteData } from '@/app/features/websites/model'
+import { WebsiteData } from '@/features/websites/model'
 import { createServerClient } from '@/lib/supabase'
 import { revalidatePath } from 'next/cache'
 

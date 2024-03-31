@@ -6,11 +6,11 @@ import {
    DialogTitle,
 } from '@/components/ui/dialog'
 import { Collection } from '@/types'
-import { WebsiteForm } from '@/app/features/websites/components/WebsiteForm'
-import { WebsiteData } from '@/app/features/websites/model'
+import { WebsiteForm } from '@/features/websites/components/WebsiteForm'
+import { WebsiteData } from '@/features/websites/model'
 import { useState } from 'react'
-import { useWebsiteStore } from '@/app/features/websites/store'
-import { updateWebsite } from '@/app/features/websites/actions/updateWebsite'
+import { useWebsiteStore } from '@/features/websites/store'
+import { updateWebsite } from '@/features/websites/actions/updateWebsite'
 
 export default function UpdateWebsiteDialog({
    collections = [],

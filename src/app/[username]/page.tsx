@@ -3,9 +3,9 @@ import { createServerClient } from '@/lib/supabase'
 import { Island } from '@/app/[username]/components/Island'
 import { VISIBILITY } from '@/consts'
 import { WebsiteWithCollections } from '@/types'
-import CreateWebsite from '@/app/features/websites/components/CreateWebsite'
-import UpdateWebsite from '@/app/features/websites/components/UpdateWebsite'
-import WebsitesList from '../features/websites/components/WebsitesList'
+import CreateWebsite from '@/features/websites/components/CreateWebsite'
+import UpdateWebsite from '@/features/websites/components/UpdateWebsite'
+import WebsitesList from '../../features/websites/components/WebsitesList'
 
 export type WebsitesPageParams = {
    params: {

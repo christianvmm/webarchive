@@ -13,7 +13,7 @@ import { MultiSelect } from '@/components/ui/multiselect'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getSiteMetadata } from '@/utils'
-import { WebsiteData, websiteSchema } from '@/app/features/websites/model'
+import { WebsiteData, websiteSchema } from '@/features/websites/model'
 import { useState } from 'react'
 import { Collection } from '@/types'
 

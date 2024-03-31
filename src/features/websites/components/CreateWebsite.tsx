@@ -1,4 +1,4 @@
-import CreateWebsiteDialog from '@/app/features/websites/components/CreateWebsiteDialog'
+import CreateWebsiteDialog from '@/features/websites/components/CreateWebsiteDialog'
 import { createServerClient } from '@/lib/supabase'
 
 export default async function CreateWebsite() {
