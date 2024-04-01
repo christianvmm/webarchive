@@ -27,6 +27,9 @@ export default async function UserProfilePage({
             .from('collections')
             .select('*')
             .eq('user_id', user.data.id)
+            .order('visibility', { ascending: false })
+            .order('name', { ascending: true })
+
          collections = result.data ?? []
       } else {
          const result = await supabase
@@ -34,6 +37,9 @@ export default async function UserProfilePage({
             .select('*')
             .eq('user_id', user.data.id)
             .eq('visibility', 'public')
+            .order('visibility', { ascending: false })
+            .order('name', { ascending: true })
+
          collections = result.data ?? []
       }
    }
@@ -49,7 +55,7 @@ export default async function UserProfilePage({
             collections={collections}
          />
 
-         <main className='w-full lg:w-[calc(100%-256px)] ml-auto'>
+         <main className='w-full md:w-[calc(100%-256px)] ml-auto'>
             {children}
          </main>
       </div>

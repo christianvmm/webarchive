@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation'
 
 export async function updateCollection(
    data: CollectionData & { id: number },
-   slug?: string
+   shouldRedirect: boolean
 ) {
    const supabase = createServerClient()
    const auth = await supabase.auth.getUser()
@@ -42,7 +42,7 @@ export async function updateCollection(
 
    const newSlug = collection.data[0].slug
 
-   if (slug && newSlug !== slug) {
+   if (shouldRedirect) {
       redirect(`/${profile.data?.username}/${newSlug}`)
    }
 }

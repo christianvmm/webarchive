@@ -2,6 +2,7 @@
 import {
    Form,
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
    FormLabel,
@@ -105,35 +106,45 @@ export function CollectionForm({
             <FormField
                control={form.control}
                name='visibility'
-               render={({ field }) => (
-                  <FormItem className='flex-1'>
-                     <FormLabel>Visibility</FormLabel>
-                     <FormControl>
-                        <Select
-                           onValueChange={field.onChange}
-                           defaultValue={field.value}
-                        >
-                           <SelectTrigger className='w-full'>
-                              <SelectValue placeholder='Visibility' />
-                           </SelectTrigger>
+               render={({ field }) => {
+                  const message = {
+                     [VISIBILITY.PUBLIC]: 'Visible to everyone.',
+                     [VISIBILITY.PRIVATE]: 'Visible only to you.',
+                     [VISIBILITY.HIDDEN]:
+                        'Visible only to you. Requires your password to access.',
+                  }[field.value]
 
-                           <SelectContent>
-                              <SelectItem value={VISIBILITY.PUBLIC}>
-                                 Public
-                              </SelectItem>
-                              <SelectItem value={VISIBILITY.PRIVATE}>
-                                 Private
-                              </SelectItem>
-                              <SelectItem value={VISIBILITY.HIDDEN}>
-                                 Hidden
-                              </SelectItem>
-                           </SelectContent>
-                        </Select>
-                     </FormControl>
+                  return (
+                     <FormItem className='flex-1'>
+                        <FormLabel>Visibility</FormLabel>
+                        <FormControl>
+                           <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                           >
+                              <SelectTrigger className='w-full'>
+                                 <SelectValue placeholder='Visibility' />
+                              </SelectTrigger>
 
-                     <FormMessage />
-                  </FormItem>
-               )}
+                              <SelectContent>
+                                 <SelectItem value={VISIBILITY.PUBLIC}>
+                                    Public
+                                 </SelectItem>
+                                 <SelectItem value={VISIBILITY.PRIVATE}>
+                                    Private
+                                 </SelectItem>
+                                 <SelectItem value={VISIBILITY.HIDDEN}>
+                                    Hidden
+                                 </SelectItem>
+                              </SelectContent>
+                           </Select>
+                        </FormControl>
+
+                        <FormDescription>{message}</FormDescription>
+                        <FormMessage />
+                     </FormItem>
+                  )
+               }}
             />
 
             <IconsList

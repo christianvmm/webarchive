@@ -10,20 +10,28 @@ import { CollectionData } from '@/features/collections/model'
 import { useCollectionStore } from '@/features/collections/store'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { slugify } from '@/utils/slugify'
 
 export default function UpdateCollection() {
    const [loading, setLoading] = useState(false)
    const collectionDialog = useCollectionStore((s) => s.collectionDialog)
    const onClose = useCollectionStore((s) => s.closeCollectionDialog)
    const pathname = usePathname()
-   const [_, slug] = pathname.split('/').filter((p) => p !== '')
+   const [_, currentSlug] = pathname.split('/').filter((p) => p !== '')
 
    async function onSubmit(data: CollectionData) {
       if (!collectionDialog.data) return
       setLoading(true)
 
       try {
-         await updateCollection({ ...data, id: collectionDialog.data.id }, slug)
+         const shouldRedirect =
+            currentSlug === collectionDialog.data.slug &&
+            slugify(data.name) !== collectionDialog.data.slug
+
+         await updateCollection(
+            { ...data, id: collectionDialog.data.id },
+            shouldRedirect
+         )
          onClose()
       } catch (err) {
          if (err instanceof Error) {

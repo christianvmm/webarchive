@@ -50,11 +50,11 @@ export default async function CollectionWebsitesPage({
    // }
 
    let order = 'created_at'
-   let sortOptions = { ascending: false }
+   let orderOptions = { ascending: false }
 
    if (searchParams?.sortBy === 'name' || searchParams?.sortBy === 'url') {
       order = searchParams.sortBy
-      sortOptions = { ascending: true }
+      orderOptions = { ascending: true }
    }
 
    const query = searchParams?.query || ''
@@ -63,9 +63,9 @@ export default async function CollectionWebsitesPage({
       .from('websites')
       .select('*, website_collections!inner(collection_id)')
       .eq('website_collections.collection_id', collection.data.id)
-      .order(order, sortOptions)
       .ilike('name', `%${query}%`)
       .ilike('url', `%${query}%`)
+      .order(order, orderOptions)
 
    const websites: WebsiteWithCollections[] = data
       ? data.map((item) => {

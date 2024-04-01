@@ -9,7 +9,7 @@ export default function WebsitesList({
    websites: WebsiteWithCollections[]
 }) {
    return (
-      <ul className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 m-auto justify-items-center w-full'>
+      <ul className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 m-auto justify-items-center w-full'>
          {websites.map((website, i) => {
             return (
                <WebsiteCard

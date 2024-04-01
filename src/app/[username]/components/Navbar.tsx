@@ -6,7 +6,14 @@ import { usePathname } from 'next/navigation'
 import CreateCollection from '@/features/collections/components/CreateCollection'
 import ICONS from '@/consts/icons'
 import { BookmarkFilledIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
-import { EditIcon, TrashIcon } from 'lucide-react'
+import {
+   EditIcon,
+   EyeIcon,
+   EyeOffIcon,
+   LockIcon,
+   TrashIcon,
+   X,
+} from 'lucide-react'
 import { removeCollection } from '@/features/collections/actions/removeCollection'
 import {
    DropdownMenu,
@@ -17,6 +24,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 import UpdateCollection from '@/features/collections/components/UpdateCollection'
 import { useCollectionStore } from '@/features/collections/store'
+import { VISIBILITY } from '@/consts'
+import {
+   Tooltip,
+   TooltipProvider,
+   TooltipTrigger,
+   TooltipContent,
+} from '@/components/ui/tooltip'
+import { useNavbarStore } from '@/app/[username]/store'
+import { Button } from '@/components/ui/button'
+import { useEffect } from 'react'
 
 export default function Navbar({
    belongsToUser,
@@ -28,14 +45,33 @@ export default function Navbar({
    collections: Collection[]
 }) {
    const pathname = usePathname()
+   const open = useNavbarStore((s) => s.open)
+   const closeNavbar = useNavbarStore((s) => s.closeNavbar)
+
+   useEffect(() => {
+      closeNavbar()
+   }, [pathname, closeNavbar])
 
    return (
       <nav
-         className='w-64 h-screen max-h-screen fixed pb-[3%] border-r border-dashed border-zinc-800 overflow-y-auto hidden lg:block
-      '
+         className={cn(
+            'top-0 left-0 z-20 h-screen max-h-screen fixed pb-[3%] overflow-y-auto  bg-background',
+            'w-full',
+            open ? 'block' : 'hidden',
+            'md:w-64 md:border-r md:border-dashed md:border-zinc-800 md:block'
+         )}
       >
-         <header className='h-20 border-zinc-800 px-4 flex items-center'>
+         <header className='h-20 border-zinc-800 px-4 flex items-center justify-between'>
             <h1 className='text-lg font-semibold'>WebArchive</h1>
+
+            <Button
+               title='Close Navbar'
+               className='h-8 w-8 p-0 flex justify-center items-center md:hidden'
+               variant='ghost'
+               onClick={() => closeNavbar()}
+            >
+               <X className='h-4 w-4' />
+            </Button>
          </header>
 
          <div className='flex items-center justify-between p-4 pt-0 h-12'>
@@ -98,6 +134,13 @@ function NavLinkItem({
    const Icon = ICONS[icon]
    const openDialog = useCollectionStore((s) => s.openCollectionDialog)
 
+   const VisibilityIcon =
+      {
+         [VISIBILITY.PUBLIC]: EyeIcon,
+         [VISIBILITY.PRIVATE]: EyeOffIcon,
+         [VISIBILITY.HIDDEN]: LockIcon,
+      }[collection?.visibility ?? ''] ?? null
+
    return (
       <li
          className={cn(
@@ -105,7 +148,10 @@ function NavLinkItem({
             active ? 'bg-muted' : ''
          )}
       >
-         <Link href={href} className={cn('flex-1 flex items-center gap-3')}>
+         <Link
+            href={href}
+            className={cn('flex-1 flex items-center gap-3 mr-2')}
+         >
             {icon ? (
                <Icon className='w-4 h-4' />
             ) : (
@@ -113,6 +159,19 @@ function NavLinkItem({
             )}
 
             <p className='line-clamp-1 flex-1'>{children}</p>
+
+            {VisibilityIcon && (
+               <TooltipProvider>
+                  <Tooltip>
+                     <TooltipTrigger>
+                        <VisibilityIcon className='h-3 w-3' />
+                     </TooltipTrigger>
+                     <TooltipContent>
+                        <p className='capitalize'>{collection?.visibility}</p>
+                     </TooltipContent>
+                  </Tooltip>
+               </TooltipProvider>
+            )}
          </Link>
 
          {belongsToUser && children !== 'All' && (

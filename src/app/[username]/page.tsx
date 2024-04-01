@@ -7,10 +7,15 @@ export type WebsitesPageParams = {
    params: {
       username: string
    }
+   searchParams?: {
+      query?: string
+      sortBy?: string
+   }
 }
 
 export default async function AllWebsitesPage({
    params: { username },
+   searchParams,
 }: WebsitesPageParams) {
    const supabase = createServerClient()
    const auth = await supabase.auth.getUser()
@@ -31,6 +36,16 @@ export default async function AllWebsitesPage({
    const belongsToUser = auth.data.user?.id === user.data.id
    let websites: WebsiteWithCollections[] = []
 
+   let order = 'created_at'
+   let orderOptions = { ascending: false }
+
+   if (searchParams?.sortBy === 'name' || searchParams?.sortBy === 'url') {
+      order = searchParams.sortBy
+      orderOptions = { ascending: true }
+   }
+
+   const query = searchParams?.query || ''
+
    if (belongsToUser) {
       const { data } = await supabase
          .from('websites')
@@ -38,7 +53,9 @@ export default async function AllWebsitesPage({
             '*, website_collections(collection_id, collections!inner(visibility))'
          )
          .neq('website_collections.collections.visibility', VISIBILITY.HIDDEN)
-         .order('created_at', { ascending: false })
+         .ilike('name', `%${query}%`)
+         .ilike('url', `%${query}%`)
+         .order(order, orderOptions)
 
       if (data) {
          // TODO: Refactor
@@ -64,7 +81,9 @@ export default async function AllWebsitesPage({
             '*, website_collections(collection_id, collections!inner(visibility))'
          )
          .eq('website_collections.collections.visibility', VISIBILITY.PUBLIC)
-         .order('created_at', { ascending: false })
+         .ilike('name', `%${query}%`)
+         .ilike('url', `%${query}%`)
+         .order(order, orderOptions)
 
       if (data) {
          for (const item of data) {
