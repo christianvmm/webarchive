@@ -14,7 +14,6 @@ import {
    TrashIcon,
    X,
 } from 'lucide-react'
-import { removeCollection } from '@/features/collections/actions/removeCollection'
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -34,6 +33,7 @@ import {
 import { useNavbarStore } from '@/app/[username]/store'
 import { Button } from '@/components/ui/button'
 import { useEffect } from 'react'
+import DeleteCollection from '@/features/collections/components/DeleteCollection'
 
 export default function Navbar({
    belongsToUser,
@@ -79,6 +79,7 @@ export default function Navbar({
 
             {belongsToUser && (
                <>
+                  <DeleteCollection />
                   <CreateCollection />
                   <UpdateCollection />
                </>
@@ -134,6 +135,9 @@ function NavLinkItem({
    const Icon = ICONS[icon]
    const openDialog = useCollectionStore((s) => s.openCollectionDialog)
    const closeNavbar = useNavbarStore((s) => s.closeNavbar)
+   const openDeleteDialog = useCollectionStore(
+      (s) => s.openDeleteCollectionDialog
+   )
 
    const VisibilityIcon =
       {
@@ -214,7 +218,7 @@ function NavLinkItem({
                      className='text-zinc-400'
                      onClick={() => {
                         if (collection) {
-                           removeCollection(collection.id)
+                           openDeleteDialog(collection)
                         }
                      }}
                   >

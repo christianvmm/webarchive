@@ -8,6 +8,13 @@ type Store = {
    }
    openCollectionDialog: (data: Collection) => void
    closeCollectionDialog: () => void
+
+   deleteCollectionDialog: {
+      open: boolean
+      data: Collection | null
+   }
+   openDeleteCollectionDialog: (data: Collection) => void
+   closeDeleteCollectionDialog: () => void
 }
 
 export const useCollectionStore = create<Store>()((set) => ({
@@ -26,6 +33,27 @@ export const useCollectionStore = create<Store>()((set) => ({
    closeCollectionDialog: () => {
       set({
          collectionDialog: {
+            open: false,
+            data: null,
+         },
+      })
+   },
+
+   deleteCollectionDialog: {
+      open: false,
+      data: null,
+   },
+   openDeleteCollectionDialog: (data: Collection) => {
+      set({
+         deleteCollectionDialog: {
+            open: true,
+            data,
+         },
+      })
+   },
+   closeDeleteCollectionDialog: () => {
+      set({
+         deleteCollectionDialog: {
             open: false,
             data: null,
          },
