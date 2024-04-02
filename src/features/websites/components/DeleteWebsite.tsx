@@ -1,13 +1,13 @@
 'use client'
 import { DeleteConfirmationDialog } from '@/components/DeleteDialog'
-import { removeCollection } from '@/features/collections/actions/removeCollection'
-import { useCollectionStore } from '@/features/collections/store'
+import { removeWebsite } from '@/features/websites/actions/removeWebsite'
+import { useWebsiteStore } from '@/features/websites/store'
 import { useState } from 'react'
 
-export default function DeleteCollection() {
+export default function DeleteWebsite() {
    const [loading, setLoading] = useState(false)
-   const dialog = useCollectionStore((s) => s.deleteCollectionDialog)
-   const closeDialog = useCollectionStore((s) => s.closeDeleteCollectionDialog)
+   const dialog = useWebsiteStore((s) => s.deleteWebsiteDialog)
+   const closeDialog = useWebsiteStore((s) => s.closeDeleteWebsiteDialog)
 
    async function onDelete() {
       if (!dialog.data) return
@@ -15,7 +15,7 @@ export default function DeleteCollection() {
       setLoading(true)
 
       try {
-         await removeCollection(dialog.data.id)
+         await removeWebsite(dialog.data.id)
          closeDialog()
       } finally {
          setLoading(false)
@@ -24,7 +24,7 @@ export default function DeleteCollection() {
 
    return (
       <DeleteConfirmationDialog
-         title='Delete Collection'
+         title='Delete Website'
          recordName={dialog.data?.name || ''}
          open={dialog.open}
          onClose={closeDialog}

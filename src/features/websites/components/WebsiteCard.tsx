@@ -1,5 +1,4 @@
 'use client'
-import { removeWebsite } from '@/features/websites/actions/removeWebsite'
 import { removeWebsiteFromCollection } from '@/features/websites/actions/removeWebsiteFromCollection'
 import { useWebsiteStore } from '@/features/websites/store'
 import {
@@ -35,7 +34,8 @@ export default function WebsiteCard({
    const [errorOG, setErrorOG] = useState(false)
    const [errorIcon, setErrorIcon] = useState(false)
    const imageRef = useRef<HTMLImageElement | null>(null)
-   const openDialog = useWebsiteStore((s) => s.openWebsiteDialog)
+   const openEditDialog = useWebsiteStore((s) => s.openWebsiteDialog)
+   const openDeleteDialog = useWebsiteStore((s) => s.openDeleteWebsiteDialog)
 
    // Check if user is in /[username] or /[username]/[collection]
    const pathname = usePathname()
@@ -132,7 +132,7 @@ export default function WebsiteCard({
 
                         <DropdownMenuItem
                            className='text-zinc-400'
-                           onClick={() => openDialog(website)}
+                           onClick={() => openEditDialog(website)}
                         >
                            <EditIcon className='mr-2 h-4 w-4' />
                            <span>Edit</span>
@@ -155,9 +155,7 @@ export default function WebsiteCard({
 
                         <DropdownMenuItem
                            className='text-zinc-400'
-                           onClick={() => {
-                              removeWebsite(website.id)
-                           }}
+                           onClick={() => openDeleteDialog(website)}
                         >
                            <TrashIcon className='mr-2 h-4 w-4' />
                            <span>Delete</span>

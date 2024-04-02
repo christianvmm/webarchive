@@ -4,6 +4,7 @@ import { Collection } from '@/types'
 import ToggleNavbarButton from '@/app/[username]/components/ToggleNavbarButton'
 import CreateWebsite from '@/features/websites/components/CreateWebsite'
 import UpdateWebsite from '@/features/websites/components/UpdateWebsite'
+import DeleteWebsite from '@/features/websites/components/DeleteWebsite'
 
 export default function FiltersBar({
    numResults,
@@ -28,6 +29,7 @@ export default function FiltersBar({
          {belongsToUser && (
             <>
                <UpdateWebsite />
+               <DeleteWebsite />
                <CreateWebsite collection={collection} />
             </>
          )}

@@ -16,6 +16,7 @@ import { getSiteMetadata } from '@/utils'
 import { WebsiteData, websiteSchema } from '@/features/websites/model'
 import { useState } from 'react'
 import { Collection } from '@/types'
+import { useDebounce } from '@/hooks/useDebounce'
 
 const defaultValues: WebsiteData = {
    name: '',
@@ -44,7 +45,7 @@ export function WebsiteForm({
          : defaultValues,
    })
 
-   async function updateMetadata(url: string) {
+   const updateMetadata = useDebounce(async (url: string) => {
       try {
          new URL(url)
 
@@ -59,7 +60,7 @@ export function WebsiteForm({
 
          setLoadingMetadata(false)
       } catch {}
-   }
+   }, 700)
 
    const disabled = loadingMetadata || loading
 
