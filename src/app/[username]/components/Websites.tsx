@@ -2,13 +2,9 @@ import { BookmarkFilledIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { Collection, WebsiteWithCollections } from '@/types'
 import { Island } from '@/app/[username]/components/Island'
-import { Search } from '@/app/[username]/components/Search'
-import { SortBy } from '@/app/[username]/components/SortBy'
-import CreateWebsite from '@/features/websites/components/CreateWebsite'
 import ICONS from '@/consts/icons'
-import UpdateWebsite from '@/features/websites/components/UpdateWebsite'
 import WebsitesList from '@/features/websites/components/WebsitesList'
-import ToggleNavbarButton from '@/app/[username]/components/ToggleNavbarButton'
+import FiltersBar from '@/app/[username]/components/FiltersBar'
 
 export default function Websites({
    belongsToUser,
@@ -25,23 +21,11 @@ export default function Websites({
 
    return (
       <div className='w-full h-full'>
-         <div className='flex justify-between md:justify-end h-14 md:h-20 items-center w-full px-4 md:px-8 gap-4 sticky top-0  bg-background z-10'>
-            <ToggleNavbarButton />
-
-            <p className='text-sm text-muted-foreground hidden lg:block'>
-               Results: {websites.length}
-            </p>
-
-            <Search />
-            <SortBy />
-
-            {belongsToUser && (
-               <>
-                  <UpdateWebsite />
-                  <CreateWebsite collection={collection} />
-               </>
-            )}
-         </div>
+         <FiltersBar
+            belongsToUser={belongsToUser}
+            numResults={websites.length}
+            collection={collection}
+         />
 
          <div
             className={cn(

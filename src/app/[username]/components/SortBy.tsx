@@ -27,7 +27,7 @@ const sorts = [
    },
 ]
 
-export function SortBy() {
+export function SortBy({ disabled }: { disabled?: boolean }) {
    const searchParams = useSearchParams()
    const pathname = usePathname()
    const { replace } = useRouter()
@@ -53,7 +53,12 @@ export function SortBy() {
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild className='hidden md:flex'>
-            <Button variant='outline' size='sm' className='h-8 gap-1'>
+            <Button
+               variant='outline'
+               size='sm'
+               className='h-8 gap-1'
+               disabled={disabled}
+            >
                <ListFilter className='h-3.5 w-3.5' />
                <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
                   Sort by

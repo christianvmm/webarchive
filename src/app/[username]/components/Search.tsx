@@ -4,7 +4,7 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { SearchIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export function Search() {
+export function Search({ disabled }: { disabled?: boolean }) {
    const searchParams = useSearchParams()
    const pathname = usePathname()
    const { replace } = useRouter()
@@ -27,6 +27,7 @@ export function Search() {
 
          <Input
             type='search'
+            disabled={disabled}
             placeholder='Search websites...'
             className='pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]'
             onChange={(e) => {
