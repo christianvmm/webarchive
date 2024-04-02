@@ -15,6 +15,19 @@ type Store = {
    }
    openDeleteWebsiteDialog: (data: WebsiteWithCollections) => void
    closeDeleteWebsiteDialog: () => void
+
+   deleteWebsiteFromCollectionDialog: {
+      open: boolean
+      data: {
+         website: WebsiteWithCollections
+         slug: string
+      } | null
+   }
+   openDeleteWebsiteFromCollectionDialog: (data: {
+      website: WebsiteWithCollections
+      slug: string
+   }) => void
+   closeDeleteWebsiteFromCollectionDialog: () => void
 }
 
 export const useWebsiteStore = create<Store>()((set) => ({
@@ -22,7 +35,7 @@ export const useWebsiteStore = create<Store>()((set) => ({
       open: false,
       data: null,
    },
-   openWebsiteDialog: (data: WebsiteWithCollections) => {
+   openWebsiteDialog: (data) => {
       set({
          websiteDialog: {
             open: true,
@@ -43,7 +56,7 @@ export const useWebsiteStore = create<Store>()((set) => ({
       open: false,
       data: null,
    },
-   openDeleteWebsiteDialog: (data: WebsiteWithCollections) => {
+   openDeleteWebsiteDialog: (data) => {
       set({
          deleteWebsiteDialog: {
             open: true,
@@ -54,6 +67,27 @@ export const useWebsiteStore = create<Store>()((set) => ({
    closeDeleteWebsiteDialog: () => {
       set({
          deleteWebsiteDialog: {
+            open: false,
+            data: null,
+         },
+      })
+   },
+
+   deleteWebsiteFromCollectionDialog: {
+      open: false,
+      data: null,
+   },
+   openDeleteWebsiteFromCollectionDialog: (data) => {
+      set({
+         deleteWebsiteFromCollectionDialog: {
+            open: true,
+            data,
+         },
+      })
+   },
+   closeDeleteWebsiteFromCollectionDialog: () => {
+      set({
+         deleteWebsiteFromCollectionDialog: {
             open: false,
             data: null,
          },

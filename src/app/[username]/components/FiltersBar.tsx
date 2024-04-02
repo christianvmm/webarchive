@@ -5,6 +5,7 @@ import ToggleNavbarButton from '@/app/[username]/components/ToggleNavbarButton'
 import CreateWebsite from '@/features/websites/components/CreateWebsite'
 import UpdateWebsite from '@/features/websites/components/UpdateWebsite'
 import DeleteWebsite from '@/features/websites/components/DeleteWebsite'
+import DeleteFromCollection from '@/features/websites/components/DeleteFromCollection'
 
 export default function FiltersBar({
    numResults,
@@ -30,6 +31,7 @@ export default function FiltersBar({
             <>
                <UpdateWebsite />
                <DeleteWebsite />
+               <DeleteFromCollection />
                <CreateWebsite collection={collection} />
             </>
          )}

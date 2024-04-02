@@ -20,9 +20,10 @@ export async function removeWebsiteFromCollection({
    const collection = await supabase
       .from('collections')
       .select('id')
+      .eq('user_id', auth.data.user.id)
       .eq('slug', slug)
       .single()
-
+      
    if (collection.error || !collection.data) {
       throw new Error('Collection not found')
    }
