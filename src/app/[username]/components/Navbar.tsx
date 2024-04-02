@@ -133,6 +133,7 @@ function NavLinkItem({
 }) {
    const Icon = ICONS[icon]
    const openDialog = useCollectionStore((s) => s.openCollectionDialog)
+   const closeNavbar = useNavbarStore((s) => s.closeNavbar)
 
    const VisibilityIcon =
       {
@@ -151,6 +152,11 @@ function NavLinkItem({
          <Link
             href={href}
             className={cn('flex-1 flex items-center gap-3 mr-2')}
+            onClick={() => {
+               if (active) {
+                  closeNavbar()
+               }
+            }}
          >
             {icon ? (
                <Icon className='w-4 h-4' />
