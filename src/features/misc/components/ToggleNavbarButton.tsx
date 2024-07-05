@@ -1,6 +1,6 @@
 'use client'
-import { useNavbarStore } from '@/app/[username]/store'
 import { Button } from '@/components/ui/button'
+import { useNavbarStore } from '@/features/misc/store'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 
 export default function ToggleNavbarButton() {
