@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { createServerClient } from '@/lib/supabase'
 import { redirect } from 'next/navigation'
-import { LoginForm } from '@/app/[username]/components/LoginForm'
+import { LoginForm } from '@/features/misc/components/LoginForm'
 
 export default async function Home() {
    const supabase = createServerClient()

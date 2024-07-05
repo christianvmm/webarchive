@@ -1,3 +1,3 @@
-import LoadingSkeletons from '@/app/[username]/components/LoadingSkeletons'
+import LoadingSkeletons from '@/features/misc/components/LoadingSkeletons'
 
 export default LoadingSkeletons

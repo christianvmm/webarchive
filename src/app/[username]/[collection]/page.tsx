@@ -1,7 +1,7 @@
 import { createServerClient } from '@/lib/supabase'
 import { VISIBILITY } from '@/consts'
 import { WebsiteWithCollections } from '@/types'
-import Websites from '@/app/[username]/components/Websites'
+import Websites from '@/features/misc/components/Websites'
 
 export default async function CollectionWebsitesPage({
    params: { collection: slug },

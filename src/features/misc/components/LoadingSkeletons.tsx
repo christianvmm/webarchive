@@ -1,5 +1,5 @@
-import FiltersBar from '@/app/[username]/components/FiltersBar'
-import { Island } from '@/app/[username]/components/Island'
+import FiltersBar from '@/features/misc/components/FiltersBar'
+import { Island } from '@/features/misc/components/Island'
 import { LoaderIcon } from 'lucide-react'
 
 export default function LoadingSkeletons() {

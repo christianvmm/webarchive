@@ -1,10 +1,10 @@
 import { BookmarkFilledIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { Collection, WebsiteWithCollections } from '@/types'
-import { Island } from '@/app/[username]/components/Island'
+import { Island } from '@/features/misc/components/Island'
 import ICONS from '@/consts/icons'
 import WebsitesList from '@/features/websites/components/WebsitesList'
-import FiltersBar from '@/app/[username]/components/FiltersBar'
+import FiltersBar from '@/features/misc/components/FiltersBar'
 
 export default function Websites({
    belongsToUser,

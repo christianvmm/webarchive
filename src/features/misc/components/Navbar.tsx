@@ -30,10 +30,10 @@ import {
    TooltipTrigger,
    TooltipContent,
 } from '@/components/ui/tooltip'
-import { useNavbarStore } from '@/app/[username]/store'
 import { Button } from '@/components/ui/button'
 import { useEffect } from 'react'
 import DeleteCollection from '@/features/collections/components/DeleteCollection'
+import { useNavbarStore } from '@/features/misc/store'
 
 export default function Navbar({
    belongsToUser,

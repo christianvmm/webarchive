@@ -1,4 +1,4 @@
-import Navbar from './components/Navbar'
+import Navbar from '../../features/misc/components/Navbar'
 import { Collection } from '@/types'
 import { createServerClient } from '@/lib/supabase'
 import { WebsitesPageParams } from '@/app/[username]/page'
