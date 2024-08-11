@@ -39,35 +39,57 @@ export default function Websites({
                   websites={websites}
                />
             ) : (
-               <div className='grid place-items-center h-full w-full text-center'>
-                  {collection ? (
-                     <div>
-                        <h1 className='text-lg font-medium'>
-                           Collection &quot;{collection?.name}&quot; is empty.
-                        </h1>
-
-                        {belongsToUser && (
-                           <p className='mt-2'>
-                              Create a new website or add an existing one.
-                           </p>
-                        )}
-                     </div>
-                  ) : (
-                     <div>
-                        <h1 className='text-lg font-medium'>
-                           {belongsToUser
-                              ? "You don't have any website."
-                              : `${username} space is empty.`}
-                        </h1>
-                     </div>
-                  )}
-               </div>
+               <EmptyPlaceholder
+                  collection={collection}
+                  belongsToUser={belongsToUser}
+                  username={username}
+               />
             )}
 
             <Island
                icon={<Icon className='h-5 w-5 text-zinc-600' />}
                text={collection?.name || 'All'}
             />
+         </div>
+      </div>
+   )
+}
+
+function EmptyPlaceholder({
+   collection,
+   belongsToUser,
+   username,
+}: {
+   collection?: Collection
+   belongsToUser: boolean
+   username?: string
+}) {
+   if (collection) {
+      return (
+         <div className='grid place-items-center h-full w-full text-center'>
+            <div>
+               <h1 className='text-lg font-medium'>
+                  Collection &quot;{collection?.name}&quot; is empty.
+               </h1>
+
+               {belongsToUser && (
+                  <p className='mt-2'>
+                     Create a new website or add an existing one.
+                  </p>
+               )}
+            </div>
+         </div>
+      )
+   }
+
+   return (
+      <div className='grid place-items-center h-full w-full text-center'>
+         <div>
+            <h1 className='text-lg font-medium'>
+               {belongsToUser
+                  ? "You don't have any website."
+                  : `${username} space is empty.`}
+            </h1>
          </div>
       </div>
    )
