@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { createServerClient } from '@/lib/supabase'
 import { redirect } from 'next/navigation'
 import { LoginForm } from '@/features/misc/components/LoginForm'
@@ -40,7 +39,7 @@ export default async function Home() {
             </div>
          </div>
          <div className='hidden lg:block'>
-            <Image
+            <img
                src='/placeholder.svg'
                alt='Image'
                width='1920'

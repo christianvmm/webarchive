@@ -72,7 +72,7 @@ export default function WebsiteCard({
                   <Browser url={website.url} icon={icon} title={title} />
                </div>
             ) : (
-               <Image
+               <img
                   ref={imageRef}
                   loading='lazy'
                   decoding='async'
@@ -90,7 +90,7 @@ export default function WebsiteCard({
 
          <div className='flex gap-4 place-items-center'>
             {errorIcon || !website.favicon ? (
-               <Image
+               <img
                   alt={`${title} favicon`}
                   loading='lazy'
                   width='16'
@@ -100,7 +100,7 @@ export default function WebsiteCard({
                   src={icon}
                />
             ) : (
-               <Image
+               <img
                   alt={`${title} favicon`}
                   loading='lazy'
                   width='16'
