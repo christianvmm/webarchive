@@ -1,6 +1,6 @@
 import { WebsiteWithCollections } from '@/types'
 import { create } from 'zustand'
-import { getCookie, setCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next'
 import { STORAGE_PREFIX } from '@/consts'
 
 type Store = {
