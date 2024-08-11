@@ -36,7 +36,11 @@ export function LoginForm() {
 
       try {
          await login(data)
-      } catch {
+      } catch (err) {
+         if (err instanceof Error) {
+            form.setError('password', { message: err.message })
+         }
+
          setLoading(false)
       }
    }

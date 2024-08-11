@@ -10,7 +10,7 @@ export async function login(data: { email: string; password: string }) {
    // throws if user has not confirmed email yet
    // console.log(error)
    if (result.error) {
-      redirect('/error')
+      throw new Error(result.error.message)
    }
 
    const profile = await supabase
