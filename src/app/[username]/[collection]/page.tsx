@@ -63,8 +63,7 @@ export default async function CollectionWebsitesPage({
       .from('websites')
       .select('*, website_collections!inner(collection_id)')
       .eq('website_collections.collection_id', collection.data.id)
-      .ilike('name', `%${query}%`)
-      .ilike('url', `%${query}%`)
+      .or(`name.ilike.%${query}%, url.ilike.%${query}%`)
       .order(order, orderOptions)
 
    const websites: WebsiteWithCollections[] = data
