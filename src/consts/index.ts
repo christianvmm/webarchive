@@ -3,3 +3,5 @@ export const VISIBILITY = {
    PRIVATE: 'private',
    HIDDEN: 'hidden',
 }
+
+export const STORAGE_PREFIX = 'webarchive'

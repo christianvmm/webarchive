@@ -23,7 +23,7 @@ export async function removeWebsiteFromCollection({
       .eq('user_id', auth.data.user.id)
       .eq('slug', slug)
       .single()
-      
+
    if (collection.error || !collection.data) {
       throw new Error('Collection not found')
    }

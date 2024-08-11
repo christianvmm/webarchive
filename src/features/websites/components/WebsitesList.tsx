@@ -1,5 +1,5 @@
 import { WebsiteWithCollections } from '@/types'
-import WebsiteCard from './WebsiteCard'
+import { WebsiteItem } from '@/features/websites/components/WebsiteItem'
 
 export default function WebsitesList({
    belongsToUser,
@@ -10,10 +10,10 @@ export default function WebsitesList({
 }) {
    return (
       <ul className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 m-auto justify-items-center w-full'>
-         {websites.map((website, i) => {
+         {websites.map((website) => {
             return (
-               <WebsiteCard
-                  key={i}
+               <WebsiteItem
+                  key={website.id}
                   website={website}
                   belongsToUser={belongsToUser}
                />

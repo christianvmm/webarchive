@@ -52,9 +52,9 @@ export function Island({
 
    let prevLength: number = 0
 
-   if (typeof window !== 'undefined') {
-      prevLength = Number(localStorage.getItem('prevLength') || 0)
-   }
+   // if (typeof window !== 'undefined') {
+   //    prevLength = Number(localStorage.getItem('prevLength') || 0)
+   // }
 
    const currLength = text?.length || 0
 

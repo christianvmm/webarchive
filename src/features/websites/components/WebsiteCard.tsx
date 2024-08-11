@@ -1,15 +1,5 @@
 'use client'
-import { useWebsiteStore } from '@/features/websites/store'
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { WebsiteWithCollections } from '@/types'
-import { generateIcon } from '@/utils'
-
 import {
    ArrowLeftIcon,
    ArrowRightIcon,
@@ -18,10 +8,9 @@ import {
    PersonIcon,
    ReloadIcon,
 } from '@radix-ui/react-icons'
-import { EditIcon, TrashIcon } from 'lucide-react'
-import Image from 'next/image'
-import { usePathname } from 'next/navigation'
 import { useRef, useState } from 'react'
+import { WebsiteFavicon } from '@/features/websites/components/WebsiteFavicon'
+import { WebsiteItemMenu } from '@/features/websites/components/WebsiteItemMenu'
 
 export default function WebsiteCard({
    belongsToUser,
@@ -31,28 +20,13 @@ export default function WebsiteCard({
    website: WebsiteWithCollections
 }) {
    const [errorOG, setErrorOG] = useState(false)
-   const [errorIcon, setErrorIcon] = useState(false)
    const imageRef = useRef<HTMLImageElement | null>(null)
-   const openEditDialog = useWebsiteStore((s) => s.openWebsiteDialog)
-   const openDeleteDialog = useWebsiteStore((s) => s.openDeleteWebsiteDialog)
-   const openDeleteFromCollectionDialog = useWebsiteStore(
-      (s) => s.openDeleteWebsiteFromCollectionDialog
-   )
-
-   // Check if user is in /[username] or /[username]/[collection]
-   const pathname = usePathname()
-   const parts = pathname.split('/').filter((segment) => segment !== '')
-   const [_, collection] = parts
-   const all = parts.length === 1
-
-   const title = website.name ?? 'Unavailable'
-   const icon =
-      !website.favicon || errorIcon ? generateIcon(title) : website.favicon
+   const name = website.name ?? 'Unavailable'
 
    return (
       <li className='rounded-xl shadow-lg w-full flex flex-col gap-2 transition-all  focus:outline-1'>
          <a
-            title={`Open ${website.name} in new tab`}
+            title={`Open "${website.name}" in new tab`}
             href={website.url}
             target='_blank'
             className='hover:brightness-75'
@@ -65,11 +39,15 @@ export default function WebsiteCard({
                >
                   <div className='pt-5'>
                      <h1 className='text-white text-center line-clamp-1'>
-                        {title}
+                        {name}
                      </h1>
                   </div>
 
-                  <Browser url={website.url} icon={icon} title={title} />
+                  <Browser
+                     url={website.url}
+                     name={name}
+                     favicon={website.favicon}
+                  />
                </div>
             ) : (
                <img
@@ -79,7 +57,7 @@ export default function WebsiteCard({
                   width={400}
                   height={300}
                   className='rounded-lg aspect-video w-full h-full object-center object-cover'
-                  alt={`${title} image`}
+                  alt={`${name} image`}
                   src={website.image}
                   onError={() => {
                      setErrorOG(true)
@@ -89,84 +67,12 @@ export default function WebsiteCard({
          </a>
 
          <div className='flex gap-4 place-items-center'>
-            {errorIcon || !website.favicon ? (
-               <img
-                  alt={`${title} favicon`}
-                  loading='lazy'
-                  width='16'
-                  height='16'
-                  decoding='async'
-                  className='object-contain rounded-sm'
-                  src={icon}
-               />
-            ) : (
-               <img
-                  alt={`${title} favicon`}
-                  loading='lazy'
-                  width='16'
-                  height='16'
-                  decoding='async'
-                  className='object-contain'
-                  src={website.favicon}
-                  onError={() => {
-                     setErrorIcon(true)
-                  }}
-               />
-            )}
+            <WebsiteFavicon favicon={website.favicon} name={website.name} />
 
             <div className='flex items-center justify-between gap-5 w-full'>
-               <h1 className='font-medium line-clamp-1'>{title}</h1>
+               <h1 className='font-medium line-clamp-1'>{name}</h1>
 
-               {belongsToUser && (
-                  <DropdownMenu>
-                     <DropdownMenuTrigger>
-                        <div
-                           role='button'
-                           aria-label='Open website options.'
-                           className='h-6 w-6 flex items-center rounded-sm justify-center hover:bg-zinc-800'
-                        >
-                           <DotsVerticalIcon />
-                        </div>
-                     </DropdownMenuTrigger>
-
-                     <DropdownMenuContent>
-                        <DropdownMenuLabel>Website Options</DropdownMenuLabel>
-
-                        <DropdownMenuItem
-                           className='text-zinc-400'
-                           onClick={() => openEditDialog(website)}
-                        >
-                           <EditIcon className='mr-2 h-4 w-4' />
-                           <span>Edit</span>
-                        </DropdownMenuItem>
-
-                        {!all && (
-                           <DropdownMenuItem
-                              className='text-zinc-400'
-                              onClick={() => {
-                                 if (collection) {
-                                    openDeleteFromCollectionDialog({
-                                       website,
-                                       slug: collection,
-                                    })
-                                 }
-                              }}
-                           >
-                              <TrashIcon className='mr-2 h-4 w-4' />
-                              <span>Remove from collection</span>
-                           </DropdownMenuItem>
-                        )}
-
-                        <DropdownMenuItem
-                           className='text-zinc-400'
-                           onClick={() => openDeleteDialog(website)}
-                        >
-                           <TrashIcon className='mr-2 h-4 w-4' />
-                           <span>Delete</span>
-                        </DropdownMenuItem>
-                     </DropdownMenuContent>
-                  </DropdownMenu>
-               )}
+               {belongsToUser && <WebsiteItemMenu website={website} />}
             </div>
          </div>
       </li>
@@ -175,12 +81,12 @@ export default function WebsiteCard({
 
 function Browser({
    url,
-   title,
-   icon,
+   name,
+   favicon,
 }: {
    url: string
-   title: string
-   icon: string
+   name: string
+   favicon?: string | null
 }) {
    return (
       <div className='h-[70%] absolute bottom-0 w-[90%] rounded-t-md bg-[#D3E2FD] overflow-hidden'>
@@ -190,17 +96,16 @@ function Browser({
             <div className='h-2 w-2 rounded-full bg-green-400' />
 
             <div className='w-auto rounded-t-md bg-white absolute left-12 top-1 h-5 flex items-center px-1 gap-1'>
-               <Image
-                  alt={`${title} favicon`}
+               <WebsiteFavicon
+                  name={name}
+                  favicon={favicon}
                   width='8'
                   height='8'
-                  decoding='async'
                   className='object-contain rounded-sm'
-                  src={icon}
                />
 
                <h1 className='text-[0.4rem] w-20 font-light line-clamp-1'>
-                  {title}
+                  {name}
                </h1>
 
                <p className='text-[0.4rem]'>&#x2715;</p>

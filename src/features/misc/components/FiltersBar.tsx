@@ -6,6 +6,7 @@ import CreateWebsite from '@/features/websites/components/CreateWebsite'
 import UpdateWebsite from '@/features/websites/components/UpdateWebsite'
 import DeleteWebsite from '@/features/websites/components/DeleteWebsite'
 import DeleteFromCollection from '@/features/websites/components/DeleteFromCollection'
+import { ListView } from '@/features/misc/components/ListView'
 
 export default function FiltersBar({
    numResults,
@@ -26,6 +27,7 @@ export default function FiltersBar({
 
          <Search />
          <SortBy />
+         <ListView />
 
          {belongsToUser && (
             <>

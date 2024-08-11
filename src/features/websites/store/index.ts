@@ -1,5 +1,7 @@
 import { WebsiteWithCollections } from '@/types'
 import { create } from 'zustand'
+import { getCookie, setCookie } from 'cookies-next'
+import { STORAGE_PREFIX } from '@/consts'
 
 type Store = {
    websiteDialog: {
@@ -28,9 +30,13 @@ type Store = {
       slug: string
    }) => void
    closeDeleteWebsiteFromCollectionDialog: () => void
+
+   listView: string
+   setListView: (v: string) => void
 }
 
 export const useWebsiteStore = create<Store>()((set) => ({
+   listView: 'cards',
    websiteDialog: {
       open: false,
       data: null,
@@ -92,5 +98,10 @@ export const useWebsiteStore = create<Store>()((set) => ({
             data: null,
          },
       })
+   },
+
+   setListView(value) {
+      setCookie(`${STORAGE_PREFIX}_list_view`, value)
+      set({ listView: value })
    },
 }))
