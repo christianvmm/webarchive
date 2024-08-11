@@ -8,16 +8,16 @@ export default async function CreateWebsite({
    collection?: Collection
 }) {
    const supabase = createServerClient()
-   const auth = await supabase.auth.getUser()
+   const auth = await supabase.auth.getSession()
 
-   if (auth.error || !auth.data.user) {
+   if (auth.error || !auth.data.session?.user) {
       return null
    }
 
    const collections = await supabase
       .from('collections')
       .select('*')
-      .eq('user_id', auth.data.user.id)
+      .eq('user_id', auth.data.session.user.id)
 
    return (
       <CreateWebsiteDialog

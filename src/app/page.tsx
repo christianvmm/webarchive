@@ -4,13 +4,14 @@ import { LoginForm } from '@/features/misc/components/LoginForm'
 
 export default async function Home() {
    const supabase = createServerClient()
-   const auth = await supabase.auth.getUser()
+   const auth = await supabase.auth.getSession()
+   const user = auth.data.session?.user
 
-   if (auth.data.user) {
+   if (user) {
       const profile = await supabase
          .from('profiles')
          .select('username')
-         .eq('id', auth.data.user.id)
+         .eq('id', user.id)
          .single()
 
       if (profile.data) {

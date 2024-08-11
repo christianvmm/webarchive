@@ -10,7 +10,7 @@ export default async function UserProfilePage({
    children: React.ReactElement
 }) {
    const supabase = createServerClient()
-   const auth = await supabase.auth.getUser()
+   const auth = await supabase.auth.getSession()
    const user = await supabase
       .from('profiles')
       .select('*')
@@ -22,7 +22,7 @@ export default async function UserProfilePage({
    if (user.error || !user.data) {
       collections = []
    } else {
-      if (auth.data.user?.id === user.data?.id) {
+      if (auth.data.session?.user.id === user.data?.id) {
          const result = await supabase
             .from('collections')
             .select('*')
@@ -45,7 +45,7 @@ export default async function UserProfilePage({
    }
 
    const belongsToUser =
-      Boolean(user.data) && auth.data.user?.id === user.data?.id
+      Boolean(user.data) && auth.data.session?.user.id === user.data?.id
 
    return (
       <div className='min-h-screen flex justify-between w-full pointer-events-auto'>
